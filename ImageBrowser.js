@@ -48,10 +48,13 @@
 
     //给content图片加鼠标事件
     document.querySelector("#myCanvas").addEventListener("mousemove", function (e) {
+        let canvas = document.querySelector('#myCanvas');
         let corrds = getCurrtMouseImgCorrd(e);
         let imgX =corrds[0];
         let imgY =corrds[1];
-        let gray = this.getContext('2d').getImageData(imgX*m_scale,imgY*m_scale,1,1).data;
+        let pickX = Math.floor((e.clientX - canvas.getBoundingClientRect().left)*1000, 3)/1000.;
+        let pickY = Math.floor((e.clientY - canvas.getBoundingClientRect().top)*1000, 3)/1000.;
+        let gray = this.getContext('2d').getImageData(pickX,pickY,1,1).data;
         document.querySelector("#MousePosition").textContent = "像素坐标： " + imgX + "px, " + imgY + "px" + "； 像素信息： ("
         + gray[0]+"," + gray[1] + "," + gray[2] + ")";
         if(e.buttons == 1)
