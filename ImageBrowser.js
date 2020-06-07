@@ -14,6 +14,9 @@
         contentReader.readAsDataURL(file[0]);
 
         contentReader.onload = function(){
+            m_scale = 1.0;
+            m_offX = 0;
+            m_offY = 0;
             let canvas = document.querySelector('#myCanvas');
             let cxt = canvas.getContext('2d');
 
