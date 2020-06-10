@@ -5,6 +5,7 @@
         document.oncontextmenu = function(e){
                e.preventDefault();
            };
+        document.body.parentNode.style.overflow = "hidden";
 <!--        console.log("document load");-->
     }
     // 选择文件路径
