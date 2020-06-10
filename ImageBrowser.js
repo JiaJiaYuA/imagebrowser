@@ -24,13 +24,29 @@
             m_img = new Image();
             m_img.onload = function(){
                 let markJsonWidth = document.querySelector("#maichelJacksonLeft").width;
+                let markJsonHeight = document.querySelector("#maichelJacksonLeft").height;
+                let xRadio = window.innerWidth/markJsonWidth;
+                let yRadio = (window.innerHeight - 70)/markJsonHeight;
+                let isFitWidth = (xRadio < yRadio) ? true : false;
+                m_showRadio = (xRadio < yRadio) ? xRadio : yRadio;
+
                 canvas.width = m_img.width;
                 canvas.height = m_img.height;
-                if(m_img.width/markJsonWidth>m_showRadio)
+                // if(m_img.width/markJsonWidth>m_showRadio)
                 {
                     let scale = m_img.height/m_img.width;
-                    canvas.width = m_showRadio*markJsonWidth;
-                    canvas.height = canvas.width*scale;
+                    if(isFitWidth)
+                    {
+                        canvas.width = m_showRadio*markJsonWidth;
+                        canvas.height = canvas.width*scale;
+                    }
+                    else
+                    {
+                        canvas.height = m_showRadio*markJsonHeight;
+                        canvas.width = canvas.height/scale;
+                    }
+                    // console.log("width1:"+window.innerWidth);
+                    // console.log("height1:"+window.innerHeight);
                 }
                 m_scale = canvas.width / m_img.width;
                 originImageWidth = m_img.width;
