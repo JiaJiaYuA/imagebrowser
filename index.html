@@ -13,18 +13,74 @@
                 text-align: center;
                 font-size:30px;
         }
+        main > aside{
+            /*width: 200px;*/
+            /*height: 100%;*/
+            /*background-color: red;*/
+            float: right;
+        }
+        main > article{
+            /*width: 200px;
+            /*height: 100%;*/
+            /*background-color: aqua;*/
+            float: left;
+        }
+        main > article > img{
+            width: 100%;
+            height: 100%;
+            background-color: aqua;
+            float: bottom;
+        }
+        main > .mainContent{
+            /*background-color: #000dff;*/
+        }
+        footer{
+            width: 100%;
+            /*background-color: #ffe600;*/
+            float: bottom;
+        }
+        main > aside > textarea{
+            width: 100%;
+            height: 470px;
+        }
     </style>
 </head>
 <body>
-<form>
-<!--    文件: <input type="file" name="myFile" multiple id="myFile" onchange="getFileContent();"><br>-->
-    文件: <input type="file" name="myFile" id="myFile" onchange="getFileContent();"><br>
-</form>
-<img src="" id="maichelJacksonLeft" alt="" width=20%>
-<canvas id="myCanvas" width=60%></canvas>
-<!--<img src="" id="content" alt="">-->
-<img src="" id="maichelJacksonRight" alt="" width=20%><br>
-<label for="" id="MousePosition">鼠标位置</label>
+<!--<form>-->
+<!--&lt;!&ndash;    文件: <input type="file" name="myFile" multiple id="myFile" onchange="getFileContent();"><br>&ndash;&gt;-->
+<!--    文件: <input type="file" name="myFile" id="myFile" onchange="getFileContent();"><br>-->
+<!--</form>-->
+<nav height="10%">
+    文件: <input type="file" name="myFile" id="myFile" onchange="getFileContent()";><br>
+</nav>
+
+<main width="80%">
+    <article>
+        <img src="" id="maichelJacksonLeft" alt="" float="bottom">
+    </article>
+
+<!--    <div class="mainContent">-->
+<!--&lt;!&ndash;        <canvas id="myCanvas" ></canvas>&ndash;&gt;-->
+<!--    </div>-->
+<!--    <img src="" id="maichelJacksonLeft" alt="" width=20%>-->
+<!--    <canvas id="myCanvas" width=60%></canvas>-->
+    <!--<img src="" id="content" alt="">-->
+    <aside id="rightMichel">
+<!--        <img src="" id="maichelJacksonRight" alt="" width=20%><br>-->
+        <img src="" id="maichelJacksonRight" alt=""><br>
+        <textarea id="outputInfoArea" readonly="true" style="resize:none"></textarea>
+    </aside>
+    <div class="mainContent">
+        <canvas id="myCanvas" ></canvas>
+    </div>
+</main>
+
+<footer>
+    <label for="" id="MousePosition">鼠标位置</label>
+</footer>
+
+<script type="text/javascript" src="geometricDraw.js"></script>
+<script type="text/javascript" src="imageProcessAlgorithm.js"></script>
 <script type="text/javascript" src="ImageBrowser.js"></script>
 </body>
 </html>
