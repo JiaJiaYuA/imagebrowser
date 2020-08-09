@@ -61,6 +61,14 @@ function PointData(coord, color) {
     this.centerPoint = coord;
 }
 
+function Line2D(stPnt, edPnt, width, color) {
+    this.type = GeometricType.LINE;
+    this.color = color;
+    this.width = width;
+    this.stLinePnt = stPnt;
+    this.edLinePnt = edPnt;
+}
+
 // draw circle
 function drawCircle(canvas, circleData) {
     let ctx = canvas.getContext('2d');
@@ -87,6 +95,19 @@ function drawPoint(canvas, pointData) {
     ctx.strokeStyle = pointData.color;
     ctx.closePath();
     ctx.stroke();
+}
+
+// draw line
+function drawLine2D(canvas, lineData2D) {
+     let ctx = canvas.getContext('2d');
+     let centClinet1 = transImgCoordToClientCoord(lineData2D.stLinePnt.x, lineData2D.stLinePnt.y);
+     let centClinet2 = transImgCoordToClientCoord(lineData2D.edLinePnt.x, lineData2D.edLinePnt.y);
+     ctx.beginPath();
+     ctx.moveTo(centClinet1[0], centClinet1[1]);
+     ctx.lineTo(centClinet2[0], centClinet2[1]);
+     ctx.strokeStyle = lineData2D.color;
+     ctx.closePath();
+     ctx.stroke();
 }
 
 function drawPoints(canvas, pntArray, color) {
@@ -118,6 +139,9 @@ function drawGeometrixObject(canvas, geomObj) {
             break;
         case GeometricType.POINT:
             drawPoint(canvas, geomObj);
+            break;
+        case GeometricType.LINE:
+            drawLine2D(canvas, geomObj)
             break;
     }
 }

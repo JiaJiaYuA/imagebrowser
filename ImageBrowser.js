@@ -56,6 +56,18 @@ function getFileContent() {
     }
 }
 
+function geomDrawTypeChange(selectIndex) {
+    // console.log(selectIndex);
+    if(selectIndex == 0)
+    {
+        m_currtDrawGeomType = GeometricType.CIRCLE;
+    }
+    else if(selectIndex == 1)
+    {
+        m_currtDrawGeomType = GeometricType.LINE;
+    }
+}
+
 // 将图片绘制于canvas中, 适配canvas大小
 function drawImage(image) {
     let ctImgWidth = originImageWidth * m_scale;
@@ -83,16 +95,26 @@ document.querySelector("#myCanvas").addEventListener("mousemove", function (e) {
         + gray[0] + "," + gray[1] + "," + gray[2] + ")";
     if (e.buttons == 1) {
         //console.log("left button down move");
-        let pickPnt2d = new Point2d(imgX, imgY);
-        let ctRaduis = get_two_pnt_dis(pickPnt2d, m_leftDownPnt);
-        let circle = new Circle(m_leftDownPnt, ctRaduis, 1, 'blue');
-        drawImage(m_img);
-        m_edgePnts = findRingEagePnts(canvas, circle, 5, 1);
-        drawDetectCircle(canvas, circle, 5);
-        drawPoints(canvas, m_edgePnts, 'red');
-        // let fitCircleData = fitCircle(edgePnts);
-        // console.log(edgePnts.length);
-        // GeometricObjectsArray.push(circle);
+        if(m_currtDrawGeomType == GeometricType.CIRCLE)
+        {
+            let pickPnt2d = new Point2d(imgX, imgY);
+            let ctRaduis = get_two_pnt_dis(pickPnt2d, m_leftDownPnt);
+            let circle = new Circle(m_leftDownPnt, ctRaduis, 1, 'blue');
+            drawImage(m_img);
+            m_edgePnts = findRingEagePnts(canvas, circle, 5, 1);
+            drawDetectCircle(canvas, circle, 5);
+            drawPoints(canvas, m_edgePnts, 'red');
+            // let fitCircleData = fitCircle(edgePnts);
+            // console.log(edgePnts.length);
+            // GeometricObjectsArray.push(circle);
+        }
+        else if(m_currtDrawGeomType == GeometricType.LINE)
+        {
+            m_leftUpPnt = new Point2d(imgX, imgY);
+            let lineData = new Line2D(m_leftDownPnt, m_leftUpPnt, 1, 'blue');
+            drawImage(m_img);
+            drawLine2D(canvas, lineData);
+        }
     } else if (e.buttons == 2) {
         //console.log("right button move");
     }
@@ -130,7 +152,25 @@ function addGeomtricDataToOutput(geomObj) {
             break;
         case GeometricType.POINT:
             break;
+        case GeometricType.LINE:
+            let x1 = Math.floor(geomObj.stLinePnt.x*1000)/1000;
+            let y1 = Math.floor(geomObj.stLinePnt.y*1000)/1000;
+            let x2 = Math.floor(geomObj.edLinePnt.x*1000)/1000;
+            let y2 = Math.floor(geomObj.edLinePnt.y*1000)/1000;
+            let dis = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+
+            outputTextArea.value = outputTextArea.value +
+                'distance:' + dis + ' pixel' + '\n';
+            break;
     }
+}
+
+function resetMousePickData()
+{
+    m_leftUpPnt.x = -1;
+    m_leftUpPnt.y = -1;
+    m_leftDownPnt.x = -1;
+    m_leftDownPnt.y = -1;
 }
 
 // 鼠标滚轮事件
@@ -172,7 +212,9 @@ document.querySelector("#myCanvas").addEventListener("mouseup", function (e) {
     let canvas = document.querySelector('#myCanvas');
     // console.log(e);
     if (e.buttons == 0) {
-        if (m_edgePnts.length > 3) {
+        if(m_currtDrawGeomType == GeometricType.CIRCLE)
+        {
+            if (m_edgePnts.length > 3) {
             let fitCircleData = fitCircle(m_edgePnts);
 
             // let pickPnt = getCurrtMouseImgCorrd(e);
@@ -185,8 +227,22 @@ document.querySelector("#myCanvas").addEventListener("mouseup", function (e) {
             addGeomtricDataToOutput(singleData);
             // console.log(fitCircleData);
             m_edgePnts = 0;
+            drawImage(m_img);
+            }
         }
-        drawImage(m_img);
+        else if(m_currtDrawGeomType == GeometricType.LINE)
+        {
+            if(m_leftUpPnt.x != -1)
+            {
+                let drawLineData = new Line2D(new Point2d(m_leftDownPnt.x, m_leftDownPnt.y),
+                    new Point2d(m_leftUpPnt.x, m_leftUpPnt.y), 1, 'red');
+                GeometricObjectsArray.push(drawLineData);
+                addGeomtricDataToOutput(drawLineData);
+                drawImage(m_img);
+                resetMousePickData();
+            }
+        }
+
         // console.log("left button up");
     } else if (e.buttons == 2) {
     }
@@ -206,3 +262,5 @@ var m_showRadio = 2.8;
 
 var m_edgePnts = [];
 var m_leftDownPnt = new Point2d(-1, -1);
+var m_leftUpPnt = new Point2d(-1, -1);
+var m_currtDrawGeomType = GeometricType.CIRCLE;
