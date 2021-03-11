@@ -56,6 +56,13 @@ function getFileContent() {
     }
 }
 
+// 获取数据按钮事件
+function getDataBtnSlot() {
+    var elements=hq_str_sh601006.split(",");
+    document.write("current price:"+elements[3]);
+
+}
+
 function geomDrawTypeChange(selectIndex) {
     // console.log(selectIndex);
     if(selectIndex == 0)

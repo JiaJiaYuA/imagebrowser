@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:font-size="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -71,8 +71,8 @@
         <select id="drawGeomType" onchange="geomDrawTypeChange(this.options.selectedIndex)">
           <option value="圆拾取">圆拾取</option>
           <option value="直线拾取">直线拾取</option>
-        </select><br>
-        <textarea id="outputInfoArea" readonly="true" style="resize:none"></textarea>
+        </select><button onclick="getDataBtnSlot()";>获取数据</button></a><br>
+        <textarea id="outputInfoArea"></textarea>
     </aside>
     <div class="mainContent">
         <canvas id="myCanvas" ></canvas>
@@ -82,7 +82,11 @@
 <footer>
     <label for="" id="MousePosition">鼠标位置</label>
 </footer>
-
+<script type="text/javascript" src="http://hq.sinajs.cn/list=sh601006,sh601001" charset="gb2312"></script>
+<script type="text/javascript">
+var elements=hq_str_sh601006.split(",");
+document.querySelector("#outputInfoArea").textContent = elements;
+</script>
 <script type="text/javascript" src="geometricDraw.js"></script>
 <script type="text/javascript" src="imageProcessAlgorithm.js"></script>
 <script type="text/javascript" src="ImageBrowser.js"></script>
