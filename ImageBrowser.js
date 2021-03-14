@@ -58,9 +58,77 @@ function getFileContent() {
 
 // 获取数据按钮事件
 function getDataBtnSlot() {
-    var elements=hq_str_sh601006.split(",");
-    document.write("current price:"+elements[3]);
 
+    // var script = document.createElement('script');
+    // script.type = 'text/javascript';
+    //
+    // // 传参并指定回调执行函数为onBack
+    // script.src = 'http://money.finance.sina.com.cn/quotes_service/api/json_v2.php/CN_MarketData.getKLineData?symbol=sz000007&scale=5&ma=5&datalen=240';
+    // document.head.appendChild(script);
+    // var d = window.frames["CN_MarketData.getKLineData"].document;
+    // var preA = d.getElementsByTagName("pre");
+    // a = 0;
+    // // 回调执行函数
+    // function onBack(res) {
+    //     console.log(JSON.stringify(res));
+    //     // alert(JSON.stringify(res));
+    // }
+
+		// let scriptDom = document.createElement("script");
+		// scriptDom.type="text/javascript";
+		// scriptDom.id = "scriptId";
+		// scriptDom.src = "http://money.finance.sina.com.cn/quotes_service/api/json_v2.php/CN_MarketData.getKLineData?symbol=sz000007&scale=5&ma=5&datalen=240";
+		// document.body.appendChild(scriptDom);
+        //
+		// // scriptDom.remove();
+		// let oldScriptDom =document.getElementById("scriptId");
+		// var a = oldScriptDom.innerText;
+		// var preStr = oldScriptDom.getElementsByTagName("pre");
+		// a = 0;
+
+     // var getJSON = function(url) {
+     //   return new Promise(function(resolve, reject) {
+     //    var xhr = new XMLHttpRequest();
+     //     xhr.open('get', url, true);
+     //     xhr.responseType = 'json';
+     //    xhr.onload = function() {
+     //       var status = xhr.status;
+     //       if (status == 200) {
+     //         resolve(xhr.response);
+     //       } else {
+     //         reject(status);
+     //       }
+     //     };
+     //     xhr.send();
+     //   });
+     // };
+     //
+     // getJSON('http://money.finance.sina.com.cn/quotes_service/api/json_v2.php/CN_MarketData.getKLineData?symbol=sz000007&scale=5&ma=5&datalen=240').then(function(data) {
+     //     // alert('Your Json result is:  ' + data); //you can comment this, i used it to debug
+     //     //
+     //     //
+     //     // var html = '<ul>';
+     //     // for (var i = 0; i < data.length; i++) {
+     //     //     html += '<li>' + 'jobID is:'+data[i].jobID + ', file path is' +data[i].filePath + '</li>';
+     //     // }
+     //     // html += '</ul>';
+     //
+     //    document.querySelector("#outputInfoArea").textContent = data;
+     //     // document.getElementById('result').innerHTML = html; //display the result in an HTML element
+     // }, function(status) { //error detection....
+     //   alert('Something went wrong.');
+     // });
+
+
+    // <script type="text/javascript" src="https://hq.sinajs.cn/list=sh601006,sh601001" charset="gb2312"></script>;
+
+    // var xmlhttp=new XMLHttpRequest();
+    // var url = "https://hq.sinajs.cn/list=sh601006,sh601001";
+    // var another = open(url);
+    //
+    // // another
+    // close();
+    //document.querySelector("#outputInfoArea").textContent = realSharesData[0];
 }
 
 function geomDrawTypeChange(selectIndex) {
