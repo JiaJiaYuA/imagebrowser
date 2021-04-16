@@ -14453,6 +14453,15 @@
             continue;
         }
 
+        if(ctElements[8] < 1000000){
+            continue;
+        }
+
+        if(ctElements[0].indexOf("ST") != -1){
+            continue;
+        }
+
+
         var ctSingleCandidateSharesData = [];
         ctSingleCandidateSharesData.push(realSharesData[i][1]); // 股票代码
         ctSingleCandidateSharesData.push(ctElements[0]); // 当前名称
@@ -14466,6 +14475,7 @@
         ctSingleCandidateSharesData.push(startPriceRadio); // 竞价率
         ctSingleCandidateSharesData.push(ctElements[1]); // 今日开盘价
         ctSingleCandidateSharesData.push(ctElements[2]); // 昨日收盘价
+        ctSingleCandidateSharesData.push(ctElements[8]); // 成交股数
         candidateSharesData.push(ctSingleCandidateSharesData);
     }
 
@@ -14583,7 +14593,10 @@
                 // '卖一：' + Math.floor(candidateSharesData[j][6]*100)/100. + '元' + ',  ' +
                 // '成交金额：' + Math.floor(candidateSharesData[j][7]) + '万元' + ',  ' +
                 '当前浮动值：' + Math.floor(candidateSharesData[j][8]*100)/100. + '%' + ',  ' +
+                '买一：' + Math.floor(candidateSharesData[j][3])  + ',  ' +
+                '卖一：' + Math.floor(candidateSharesData[j][5])  + ',  ' +
                 '竞价率：' + candidateSharesData[j][9] + '%' + ',  ' +
+                '成交股数：' + Math.floor(candidateSharesData[j][12]/100) + '' + ',  ' +
                 // '今日开盘价：' + candidateSharesData[j][10] + '元' + ',  ' +
                 // '昨日收盘价：' + candidateSharesData[j][11] + '元' + ',  ' +
                 '\n';
