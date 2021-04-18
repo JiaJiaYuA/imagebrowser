@@ -14688,15 +14688,15 @@
 
     timeStr = mytime.split(":");
 
-    if(timeStr[0] == "上午09")
-    {
-        if(parseFloat(timeStr[1]) >= 25 && parseFloat(timeStr[1]) <= 29)
+    // if(timeStr[0] == "上午09")
+    // {
+    //     if(parseFloat(timeStr[1]) >= 25 && parseFloat(timeStr[1]) <= 29)
         {
             var content = JSON.stringify(jsonText);
             var blob = new Blob([content], {type: "text/plain;charset=utf-8"});
             saveAs(blob, myDate.toLocaleDateString() + ".json");
         }
-    }
+    // }
 
 
 
