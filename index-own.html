@@ -23069,6 +23069,7 @@ ctHistoryData = [];
         }
 
         let yesTdayValue = -1;
+        let histortData = []
         for(let tHisIndex = 0; tHisIndex < allHistoryData.length; tHisIndex++)
         {
             if(realSharesData[i][realSharesData[i].length-1] == allHistoryData[tHisIndex][1]){
@@ -23077,6 +23078,7 @@ ctHistoryData = [];
                     break;
                 }
                 yesTdayValue = allHistoryData[tHisIndex][0][59][5];
+                histortData = allHistoryData[tHisIndex][0];
                 break;
             }
         }
@@ -23107,6 +23109,7 @@ ctHistoryData = [];
             ctSingleCandidateSharesData1.push(ctElements[8]); // 成交股数
             ctSingleCandidateSharesData1.push(realSharesData[i][realSharesData[i].length-2]); // 流通市值
             ctSingleCandidateSharesData1.push(yesTdayValue); // 昨日成交股数
+            ctSingleCandidateSharesData1.push(histortData); // 历史信息
 
             isFind = false;
             for(let dI = 0; dI < allIndustrySectors.length; dI++)
@@ -23158,6 +23161,7 @@ ctHistoryData = [];
         ctSingleCandidateSharesData.push(ctElements[8]); // 成交股数
         ctSingleCandidateSharesData.push(realSharesData[i][realSharesData[i].length-2]); // 流通市值
         ctSingleCandidateSharesData.push(yesTdayValue); // 成交股数
+        ctSingleCandidateSharesData.push(histortData); // 历史信息
 
         // 确定行业板块
         isFind = false;
@@ -23241,8 +23245,8 @@ ctHistoryData = [];
                 '竞价率：' + candidateSharesData1[j][9] + '%' + ',  ' +
                 '成交股数：' + Math.floor(candidateSharesData1[j][12]/100) + '' + ',  ' +
                 '昨日成交股数：' + Math.floor(candidateSharesData1[j][14]) + '' + ',  ' +
-            '板块：' + candidateSharesData1[j][15] + '' + ',  ' +
-            '板块增幅：' + Math.floor(candidateSharesData1[j][16]*100)/100.0 + '%' + ',  ' +
+            '板块：' + candidateSharesData1[j][16] + '' + ',  ' +
+            '板块增幅：' + Math.floor(candidateSharesData1[j][17]*100)/100.0 + '%' + ',  ' +
                 // '今日开盘价：' + candidateSharesData[j][10] + '元' + ',  ' +
                 // '昨日收盘价：' + candidateSharesData[j][11] + '元' + ',  ' +
                 '\n\n';
@@ -23364,8 +23368,8 @@ ctHistoryData = [];
                 '竞价率：' + candidateSharesData[j][9] + '%' + ',  ' +
                 '成交股数：' + Math.floor(candidateSharesData[j][12]/100) + '' + ',  ' +
             '昨日成交股数：' + Math.floor(candidateSharesData[j][14]) + '' + ',  ' +
-            '板块：' + candidateSharesData[j][15] + '' + ',  ' +
-            '板块增幅：' + Math.floor(candidateSharesData[j][16]*100)/100.0 + '%' + ',  ' +
+            '板块：' + candidateSharesData[j][16] + '' + ',  ' +
+            '板块增幅：' + Math.floor(candidateSharesData[j][17]*100)/100.0 + '%' + ',  ' +
                 // '今日开盘价：' + candidateSharesData[j][10] + '元' + ',  ' +
                 // '昨日收盘价：' + candidateSharesData[j][11] + '元' + ',  ' +
                 '\n\n';
