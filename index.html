@@ -106,7 +106,7 @@
 <script type="text/javascript" src="https://money.finance.sina.com.cn/q/view/newFLJK.php?param=company" charset="gb2312"></script>
 
 <script type="text/javascript" src="https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?_var=kline_dayhfq&param=sz000001,day,,,60,qfq&r=1" charSet = "gb2312"></script>
-<script type="text/javascript" src="AllHistoryData0427.js"></script>
+<script type="text/javascript" src="AllHistoryData0428.js"></script>
 
 <script type="text/javascript">
     // ctHistoryData = []
@@ -179,7 +179,7 @@
         }
 
         let tdRadio = Math.floor(ctElements[8]/100 / yesTdayValue * 100)/100.;
-        if(ctElements[8]/100 < yesTdayValue/10.){
+        if(ctElements[8]/100 < yesTdayValue/10. && ctElements[8]/100 < 20000) {
             continue;
         }
 
@@ -518,7 +518,7 @@
                 '成交股数：' + Math.floor(candidateSharesData[j][12]/100) + '' + ',  ' +
             '昨日成交股数：' + Math.floor(candidateSharesData[j][14]) + '' + ',  ' +
                 '竞价放量比：' + candidateSharesData[j][16] + '' + ',  ' +
-                '打板类别：' + candidateSharesData1[j][17] + '' + ',  ' +
+                '打板类别：' + candidateSharesData[j][17] + '' + ',  ' +
             // '板块：' + candidateSharesData[j][17] + '' + ',  ' +
             // '板块增幅：' + Math.floor(candidateSharesData[j][18]*100)/100.0 + '%' + ',  ' +
                 // '今日开盘价：' + candidateSharesData[j][10] + '元' + ',  ' +
