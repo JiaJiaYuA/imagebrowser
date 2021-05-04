@@ -179,7 +179,11 @@
         }
 
         let tdRadio = Math.floor(ctElements[8]/100 / yesTdayValue * 100)/100.;
-        if(ctElements[8]/100 < yesTdayValue/10. && ctElements[8]/100 < 20000) {
+
+        if(ctElements[8]/100 < 2000) {
+            continue;
+        }
+        if(ctElements[8]/100 < yesTdayValue/10. && ctElements[8]/100 < 5000) {
             continue;
         }
 
@@ -271,7 +275,7 @@
             candidateSharesData1.push(ctSingleCandidateSharesData1);
         }
 
-        if(startPriceRadio < 5 || startPriceRadio > 9.95){
+        if(startPriceRadio < 5 || startPriceRadio > 9){
             continue;
         }
 
