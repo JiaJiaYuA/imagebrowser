@@ -199,17 +199,24 @@
         let priceRadio2 = ((lastPrice3 - lastPrice2)/lastPrice2)*100;
         let priceRadio3 = ((lastPrice4 - lastPrice3)/lastPrice3)*100;
 
-        if(priceRadio1 > 9.2){
+        let isTwoBan = false;
+        if(priceRadio1 > 9.9){
             HighstNum++;
         }
 
-        if(priceRadio2 > 9.2){
+        if(priceRadio2 > 9.9){
             HighstNum++;
         }
 
-        if(priceRadio3 > 9.2){
+        if(priceRadio3 > 9.9){
             HighstNum++;
         }
+
+        if(priceRadio1 < 9.9 && priceRadio2 < 9.9 && priceRadio3 > 9.9)
+        {
+            isTwoBan = true;
+        }
+
 
         if(startPriceRadio > 3 && startPriceRadio < 5 && HighstNum == 0)
         {
@@ -275,7 +282,7 @@
             candidateSharesData1.push(ctSingleCandidateSharesData1);
         }
 
-        if(startPriceRadio < 5 || startPriceRadio > 9){
+        if(startPriceRadio < 5 || startPriceRadio > 9 || isTwoBan == false){
             continue;
         }
 
