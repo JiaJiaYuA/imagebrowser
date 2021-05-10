@@ -106,7 +106,7 @@
 <script type="text/javascript" src="https://money.finance.sina.com.cn/q/view/newFLJK.php?param=company" charset="gb2312"></script>
 
 <script type="text/javascript" src="https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?_var=kline_dayhfq&param=sz000001,day,,,60,qfq&r=1" charSet = "gb2312"></script>
-<script type="text/javascript" src="AllHistoryData0507.js"></script>
+<script type="text/javascript" src="AllHistoryData0511.js"></script>
 
 <script type="text/javascript">
     // ctHistoryData = []
@@ -155,7 +155,7 @@
             continue;
         }
 
-        if(ctElements[ctElements.length - 2] > 100){
+        if(ctElements[ctElements.length - 2] > 150){
             continue;
         }
 
@@ -405,8 +405,8 @@
                 '昨日成交股数：' + Math.floor(candidateSharesData1[j][14]) + '' + ',  ' +
                 '竞价放量比：' + candidateSharesData1[j][16] + '' + ',  ' +
                 '打板类别：' + candidateSharesData1[j][17] + '' + ',  ' +
-            // '板块：' + candidateSharesData1[j][17] + '' + ',  ' +
-            // '板块增幅：' + Math.floor(candidateSharesData1[j][18]*100)/100.0 + '%' + ',  ' +
+             // '板块：' + candidateSharesData1[j][18] + '' + ',  ' +
+             // '板块增幅：' + Math.floor(candidateSharesData1[j][19]*100)/100.0 + '%' + ',  ' +
                 // '今日开盘价：' + candidateSharesData[j][10] + '元' + ',  ' +
                 // '昨日收盘价：' + candidateSharesData[j][11] + '元' + ',  ' +
                 '\n\n';
@@ -530,8 +530,8 @@
             '昨日成交股数：' + Math.floor(candidateSharesData[j][14]) + '' + ',  ' +
                 '竞价放量比：' + candidateSharesData[j][16] + '' + ',  ' +
                 '打板类别：' + candidateSharesData[j][17] + '' + ',  ' +
-            // '板块：' + candidateSharesData[j][17] + '' + ',  ' +
-            // '板块增幅：' + Math.floor(candidateSharesData[j][18]*100)/100.0 + '%' + ',  ' +
+             // '板块：' + candidateSharesData[j][18] + '' + ',  ' +
+             // '板块增幅：' + Math.floor(candidateSharesData[j][19]*100)/100.0 + '%' + ',  ' +
                 // '今日开盘价：' + candidateSharesData[j][10] + '元' + ',  ' +
                 // '昨日收盘价：' + candidateSharesData[j][11] + '元' + ',  ' +
                 '\n\n';
