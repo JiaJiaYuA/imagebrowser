@@ -106,7 +106,7 @@
 <script type="text/javascript" src="https://money.finance.sina.com.cn/q/view/newFLJK.php?param=company" charset="gb2312"></script>
 
 <script type="text/javascript" src="https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?_var=kline_dayhfq&param=sz000001,day,,,60,qfq&r=1" charSet = "gb2312"></script>
-<script type="text/javascript" src="AllHistoryData0511.js"></script>
+<script type="text/javascript" src="AllHistoryData0513.js"></script>
 
 <script type="text/javascript">
     // ctHistoryData = []
@@ -155,7 +155,7 @@
             continue;
         }
 
-        if(ctElements[ctElements.length - 2] > 150){
+        if(ctElements[ctElements.length - 2] > 180){
             continue;
         }
 
@@ -212,13 +212,18 @@
             HighstNum++;
         }
 
+        let isAddThreeDay = true;
+
+        if(priceRadio1 < 0 || priceRadio2 < 0 || priceRadio3 < 0){
+            isAddThreeDay = false;
+        }
+
         if(priceRadio1 < 9.89 && priceRadio2 < 9.89 && priceRadio3 > 9.89)
         {
             isTwoBan = true;
         }
 
-
-        if(startPriceRadio > 3 && startPriceRadio < 5 && HighstNum == 0)
+        if(startPriceRadio > 3 && startPriceRadio < 5 && HighstNum == 0 && !isAddThreeDay)
         {
             var ctSingleCandidateSharesData1 = [];
             ctSingleCandidateSharesData1.push(realSharesData[i][realSharesData[i].length-1]); // 股票代码
