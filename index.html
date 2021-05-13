@@ -204,6 +204,8 @@
         let priceRadio4 = ((lastPrice5 - lastPrice4)/lastPrice3)*100;
         let priceRadio5 = ((lastPrice6 - lastPrice5)/lastPrice3)*100;
 
+        let avgRadio = (priceRadio1+priceRadio2+priceRadio3+priceRadio4+priceRadio5)/5.;
+
         let isTwoBan = false;
         if(priceRadio1 > 9.89){
             HighstNum++;
@@ -277,20 +279,70 @@
             ctSingleCandidateSharesData1.push(yesTdayValue); // 昨日成交股数
             ctSingleCandidateSharesData1.push(historyData); // 历史信息
             ctSingleCandidateSharesData1.push(tdRadio); // 竞价放量比
+
+            let isGood = true;
             if(HighstNum == 0){
-                ctSingleCandidateSharesData1.push("3天0板"); // 打板类别
+            ctSingleCandidateSharesData1.push("5天0板"); // 打板类别
             }
             else if(HighstNum == 1)
             {
-                ctSingleCandidateSharesData1.push("3天1板"); // 打板类别
+                isGood = false
+                ctSingleCandidateSharesData1.push("5天1板"); // 打板类别
             }
             else if(HighstNum == 2)
             {
-                ctSingleCandidateSharesData1.push("3天2板"); // 打板类别
+                isGood = false;
+                ctSingleCandidateSharesData1.push("5天2板"); // 打板类别
             }
             else if(HighstNum == 3)
             {
-                ctSingleCandidateSharesData1.push("3天3板"); // 打板类别
+                isGood = false;
+                ctSingleCandidateSharesData1.push("5天3板"); // 打板类别
+            }
+            else if(HighstNum == 4)
+            {
+                isGood = false;
+                ctSingleCandidateSharesData1.push("5天4板"); // 打板类别
+            }
+            else if(HighstNum == 5)
+            {
+                isGood = false;
+                ctSingleCandidateSharesData1.push("5天5板"); // 打板类别
+            }
+
+            if(addNum == 0){
+                ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += ",5天0涨"
+            }
+            else if(addNum == 1)
+            {
+                ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += ",5天1涨"
+            }
+            else if(addNum == 2)
+            {
+                ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += ",5天2涨"
+            }
+            else if(addNum == 3)
+            {
+                ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += ",5天3涨"
+            }
+            else if(addNum == 4)
+            {
+                isGood = false;
+                ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += ",5天4涨"
+            }
+            else if(addNum == 5)
+            {
+                isGood = false;
+                ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += ",5天5涨"
+            }
+            ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += "，";
+            ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += Math.floor(avgRadio*100)/100.;
+            if(avgRadio > 1){
+                isGood = false;
+            }
+            if(isGood)
+            {
+                ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += ", 优选";
             }
 
             isFind = false;
@@ -344,27 +396,33 @@
         ctSingleCandidateSharesData.push(yesTdayValue); // 成交股数
         ctSingleCandidateSharesData.push(historyData); // 历史信息
         ctSingleCandidateSharesData.push(tdRadio); // 竞价放量比
+        let isGood = true;
         if(HighstNum == 0){
-            ctSingleCandidateSharesData.push("5天0板"); // 打板类别
+        ctSingleCandidateSharesData.push("5天0板"); // 打板类别
         }
         else if(HighstNum == 1)
         {
+            isGood = false
             ctSingleCandidateSharesData.push("5天1板"); // 打板类别
         }
         else if(HighstNum == 2)
         {
+            isGood = false;
             ctSingleCandidateSharesData.push("5天2板"); // 打板类别
         }
         else if(HighstNum == 3)
         {
+            isGood = false;
             ctSingleCandidateSharesData.push("5天3板"); // 打板类别
         }
         else if(HighstNum == 4)
         {
+            isGood = false;
             ctSingleCandidateSharesData.push("5天4板"); // 打板类别
         }
         else if(HighstNum == 5)
         {
+            isGood = false;
             ctSingleCandidateSharesData.push("5天5板"); // 打板类别
         }
 
@@ -385,11 +443,22 @@
         }
         else if(addNum == 4)
         {
+            isGood = false;
             ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",5天4涨"
         }
         else if(addNum == 5)
         {
+            isGood = false;
             ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",5天5涨"
+        }
+        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += "，";
+        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += Math.floor(avgRadio*100)/100.;
+        if(avgRadio > 1){
+            isGood = false;
+        }
+        if(isGood)
+        {
+            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ", 优选";
         }
 
         // 确定行业板块
