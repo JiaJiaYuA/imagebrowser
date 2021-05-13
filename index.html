@@ -180,7 +180,7 @@
 
         let tdRadio = Math.floor(ctElements[8]/100 / yesTdayValue * 100)/100.;
 
-        if(ctElements[8]/100 < 2000) {
+        if(ctElements[8]/100 < 10000) {
             continue;
         }
         if(ctElements[8]/100 < yesTdayValue/10. && ctElements[8]/100 < 5000) {
@@ -190,14 +190,19 @@
 
         // 打板类别
         let HighstNum = 0
-        let lastPrice1 = historyData[56][2]
-        let lastPrice2 = historyData[57][2]
-        let lastPrice3 = historyData[58][2]
-        let lastPrice4 = historyData[59][2]
+        let addNum = 0;
+        let lastPrice1 = historyData[54][2]
+        let lastPrice2 = historyData[55][2]
+        let lastPrice3 = historyData[56][2]
+        let lastPrice4 = historyData[57][2]
+        let lastPrice5 = historyData[58][2]
+        let lastPrice6 = historyData[59][2]
 
         let priceRadio1 = ((lastPrice2 - lastPrice1)/lastPrice1)*100;
         let priceRadio2 = ((lastPrice3 - lastPrice2)/lastPrice2)*100;
         let priceRadio3 = ((lastPrice4 - lastPrice3)/lastPrice3)*100;
+        let priceRadio4 = ((lastPrice5 - lastPrice4)/lastPrice3)*100;
+        let priceRadio5 = ((lastPrice6 - lastPrice5)/lastPrice3)*100;
 
         let isTwoBan = false;
         if(priceRadio1 > 9.89){
@@ -212,6 +217,35 @@
             HighstNum++;
         }
 
+        if(priceRadio4 > 9.89){
+            HighstNum++;
+        }
+
+        if(priceRadio5 > 9.89){
+            HighstNum++;
+        }
+
+        //
+        if(priceRadio1 > 1){
+            addNum++;
+        }
+
+        if(priceRadio2 > 1){
+            addNum++;
+        }
+
+        if(priceRadio3 > 1){
+            addNum++;
+        }
+
+        if(priceRadio4 > 1){
+            addNum++;
+        }
+
+        if(priceRadio5 > 1){
+            addNum++;
+        }
+
         let isAddThreeDay = true;
 
         if(priceRadio1 < 0 || priceRadio2 < 0 || priceRadio3 < 0){
@@ -223,7 +257,7 @@
             isTwoBan = true;
         }
 
-        if(startPriceRadio > 3 && startPriceRadio < 5 && HighstNum == 0 && !isAddThreeDay)
+        if(startPriceRadio > 3 && startPriceRadio < 5)
         {
             var ctSingleCandidateSharesData1 = [];
             ctSingleCandidateSharesData1.push(realSharesData[i][realSharesData[i].length-1]); // 股票代码
@@ -287,7 +321,7 @@
             candidateSharesData1.push(ctSingleCandidateSharesData1);
         }
 
-        if(startPriceRadio < 5 || startPriceRadio > 9 || isTwoBan == false){
+        if(startPriceRadio < 5 || startPriceRadio > 9.8){
             continue;
         }
 
@@ -311,19 +345,51 @@
         ctSingleCandidateSharesData.push(historyData); // 历史信息
         ctSingleCandidateSharesData.push(tdRadio); // 竞价放量比
         if(HighstNum == 0){
-            ctSingleCandidateSharesData.push("3天0板"); // 打板类别
+            ctSingleCandidateSharesData.push("5天0板"); // 打板类别
         }
         else if(HighstNum == 1)
         {
-            ctSingleCandidateSharesData.push("3天1板"); // 打板类别
+            ctSingleCandidateSharesData.push("5天1板"); // 打板类别
         }
         else if(HighstNum == 2)
         {
-            ctSingleCandidateSharesData.push("3天2板"); // 打板类别
+            ctSingleCandidateSharesData.push("5天2板"); // 打板类别
         }
         else if(HighstNum == 3)
         {
-            ctSingleCandidateSharesData.push("3天3板"); // 打板类别
+            ctSingleCandidateSharesData.push("5天3板"); // 打板类别
+        }
+        else if(HighstNum == 4)
+        {
+            ctSingleCandidateSharesData.push("5天4板"); // 打板类别
+        }
+        else if(HighstNum == 5)
+        {
+            ctSingleCandidateSharesData.push("5天5板"); // 打板类别
+        }
+
+        if(addNum == 0){
+            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",5天0涨"
+        }
+        else if(addNum == 1)
+        {
+            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",5天1涨"
+        }
+        else if(addNum == 2)
+        {
+            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",5天2涨"
+        }
+        else if(addNum == 3)
+        {
+            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",5天3涨"
+        }
+        else if(addNum == 4)
+        {
+            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",5天4涨"
+        }
+        else if(addNum == 5)
+        {
+            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",5天5涨"
         }
 
         // 确定行业板块
