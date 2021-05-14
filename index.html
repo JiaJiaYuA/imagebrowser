@@ -187,6 +187,9 @@
             continue;
         }
 
+        if(ctElements[35] == "sh603389"){
+            let b = 0;
+        }
 
         // 打板类别
         let HighstNum = 0
@@ -201,8 +204,8 @@
         let priceRadio1 = ((lastPrice2 - lastPrice1)/lastPrice1)*100;
         let priceRadio2 = ((lastPrice3 - lastPrice2)/lastPrice2)*100;
         let priceRadio3 = ((lastPrice4 - lastPrice3)/lastPrice3)*100;
-        let priceRadio4 = ((lastPrice5 - lastPrice4)/lastPrice3)*100;
-        let priceRadio5 = ((lastPrice6 - lastPrice5)/lastPrice3)*100;
+        let priceRadio4 = ((lastPrice5 - lastPrice4)/lastPrice4)*100;
+        let priceRadio5 = ((lastPrice6 - lastPrice5)/lastPrice5)*100;
 
         let avgRadio = (priceRadio1+priceRadio2+priceRadio3+priceRadio4+priceRadio5)/5.;
 
