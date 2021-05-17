@@ -106,7 +106,7 @@
 <script type="text/javascript" src="https://money.finance.sina.com.cn/q/view/newFLJK.php?param=company" charset="gb2312"></script>
 
 <script type="text/javascript" src="https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?_var=kline_dayhfq&param=sz000001,day,,,60,qfq&r=1" charSet = "gb2312"></script>
-<script type="text/javascript" src="AllHistoryData0516.js"></script>
+<script type="text/javascript" src="AllHistoryData0517.js"></script>
 
 <script type="text/javascript">
     // ctHistoryData = []
@@ -130,7 +130,7 @@
     {
         let ctElements = realSharesData[i];
         // 价格过低或过高
-        if(ctElements[3] < 2 || ctElements[3] > 20){
+        if(ctElements[3] < 2 || ctElements[3] > 100){
             continue;
         }
 
@@ -155,7 +155,7 @@
             continue;
         }
 
-        if(ctElements[ctElements.length - 2] > 180){
+        if(ctElements[ctElements.length - 2] > 200){
             continue;
         }
 
@@ -166,6 +166,9 @@
             if(realSharesData[i][realSharesData[i].length-1] == allHistoryData[tHisIndex][1]){
                 // console.log(tHisIndex);
                 if(allHistoryData[tHisIndex][0] == "undefined"){
+                    break;
+                }
+                if(allHistoryData[tHisIndex][1] == "sz002889"){
                     break;
                 }
                 yesTdayValue = allHistoryData[tHisIndex][0][59][5];
@@ -180,12 +183,12 @@
 
         let tdRadio = Math.floor(ctElements[8]/100 / yesTdayValue * 100)/100.;
 
-        if(ctElements[8]/100 < 10000) {
+        if(ctElements[8]/100 < 2000) {
             continue;
         }
-        if(ctElements[8]/100 < yesTdayValue/10. && ctElements[8]/100 < 5000) {
-            continue;
-        }
+        // if(ctElements[8]/100 < yesTdayValue/10. && ctElements[8]/100 < 5000) {
+        //     continue;
+        // }
 
         if(ctElements[35] == "sh603389"){
             let b = 0;
@@ -207,7 +210,40 @@
         let priceRadio4 = ((lastPrice5 - lastPrice4)/lastPrice4)*100;
         let priceRadio5 = ((lastPrice6 - lastPrice5)/lastPrice5)*100;
 
+        // 近15
+        let lastPrice7 = historyData[53][2]
+        let lastPrice8 = historyData[52][2]
+        let lastPrice9 = historyData[51][2]
+        let lastPrice10 = historyData[50][2]
+        let lastPrice11 = historyData[49][2]
+        let lastPrice12 = historyData[48][2]
+        let lastPrice13 = historyData[47][2]
+        let lastPrice14 = historyData[46][2]
+        let lastPrice15 = historyData[45][2]
+        let lastPrice16 = historyData[44][2]
+
+        let priceRadio6 = ((lastPrice7 - lastPrice6)/lastPrice1)*100;
+        let priceRadio7 = ((lastPrice8 - lastPrice7)/lastPrice2)*100;
+        let priceRadio8 = ((lastPrice9 - lastPrice8)/lastPrice3)*100;
+        let priceRadio9 = ((lastPrice10 - lastPrice9)/lastPrice4)*100;
+        let priceRadio10 = ((lastPrice11 - lastPrice10)/lastPrice5)*100;
+        let priceRadio11 = ((lastPrice12 - lastPrice11)/lastPrice5)*100;
+        let priceRadio12 = ((lastPrice13 - lastPrice12)/lastPrice5)*100;
+        let priceRadio13 = ((lastPrice14 - lastPrice13)/lastPrice5)*100;
+        let priceRadio14 = ((lastPrice15 - lastPrice14)/lastPrice5)*100;
+        let priceRadio15 = ((lastPrice16 - lastPrice15)/lastPrice5)*100;
+
+
+
+
         let avgRadio = (priceRadio1+priceRadio2+priceRadio3+priceRadio4+priceRadio5)/5.;
+        let avgRadio15 = (priceRadio1+priceRadio2+priceRadio3+priceRadio4+priceRadio5+
+                        priceRadio6+priceRadio7+priceRadio8+priceRadio9+priceRadio10+
+                        priceRadio11+priceRadio12+priceRadio13+priceRadio14+priceRadio15)/15.;
+
+        if(avgRadio>1.5){
+            continue;
+        }
 
         let isTwoBan = false;
         if(priceRadio1 > 9.89){
@@ -340,6 +376,9 @@
             }
             ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += "，";
             ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += Math.floor(avgRadio*100)/100.;
+            ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += ",    ";
+            ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += Math.floor(avgRadio15*100)/100.;
+
             if(avgRadio > 1){
                 isGood = false;
             }
@@ -348,30 +387,33 @@
                 ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += ", 优选";
             }
 
-            isFind = false;
-            for(let dI = 0; dI < allIndustrySectors.length; dI++)
-            {
-                for(let diC=0; diC < allIndustrySectors[dI][1].length; diC++)
-                {
-                    if(ctSingleCandidateSharesData1[0] == allIndustrySectors[dI][1][diC])
-                    {
-                        isFind = true;
-                        let ctValue = -99999;
-                        for(let dvalueIndex = 0; dvalueIndex < allIndustrySectorsValues.length; dvalueIndex++)
-                        {
-                            if(allIndustrySectors[dI][0] == allIndustrySectorsValues[dvalueIndex][1]){
-                                ctValue = allIndustrySectorsValues[dvalueIndex][5];
-                                break;
-                            }
-                        }
-                        ctSingleCandidateSharesData1.push(allIndustrySectors[dI][0]);
-                        ctSingleCandidateSharesData1.push(ctValue);
-                    }
-                }
-                if(isFind){
-                    break;
-                }
-            }
+            // isFind = false;
+            // for(let dI = 0; dI < allIndustrySectors.length; dI++)
+            // {
+            //     for(let diC=0; diC < allIndustrySectors[dI][1].length; diC++)
+            //     {
+            //         if(ctSingleCandidateSharesData1[0] == allIndustrySectors[dI][1][diC])
+            //         {
+            //             isFind = true;
+            //             let ctValue = -99999;
+            //             for(let dvalueIndex = 0; dvalueIndex < allIndustrySectorsValues.length; dvalueIndex++)
+            //             {
+            //                 if(allIndustrySectors[dI][0] == allIndustrySectorsValues[dvalueIndex][1]){
+            //                     ctValue = allIndustrySectorsValues[dvalueIndex][5];
+            //                     break;
+            //                 }
+            //             }
+            //             ctSingleCandidateSharesData1.push(allIndustrySectors[dI][0]);
+            //             ctSingleCandidateSharesData1.push(ctValue);
+            //         }
+            //     }
+            //     if(isFind){
+            //         break;
+            //     }
+            // }
+
+            ctSingleCandidateSharesData1.push(-1);
+            ctSingleCandidateSharesData1.push(-1);
 
             candidateSharesData1.push(ctSingleCandidateSharesData1);
         }
@@ -456,6 +498,9 @@
         }
         ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += "，";
         ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += Math.floor(avgRadio*100)/100.;
+
+        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",   ";
+        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += Math.floor(avgRadio15*100)/100.;
         if(avgRadio > 1){
             isGood = false;
         }
@@ -465,27 +510,29 @@
         }
 
         // 确定行业板块
-        isFind = false;
-        for(let dI = 0; dI < allIndustrySectors.length; dI++)
-        {
-            for(let diC=0; diC < allIndustrySectors[dI][1].length; diC++)
-            {
-                if(ctSingleCandidateSharesData[0] == allIndustrySectors[dI][1][diC])
-                {
-                    isFind = true;
-                    let ctValue = -99999;
-                    for(let dvalueIndex = 0; dvalueIndex < allIndustrySectorsValues.length; dvalueIndex++)
-                    {
-                        if(allIndustrySectors[dI][0] == allIndustrySectorsValues[dvalueIndex][1]){
-                            ctValue = allIndustrySectorsValues[dvalueIndex][5];
-                            break;
-                        }
-                    }
-                    ctSingleCandidateSharesData.push(allIndustrySectors[dI][0]);
-                    ctSingleCandidateSharesData.push(ctValue);
-                }
-            }
-        }
+        // isFind = false;
+        // for(let dI = 0; dI < allIndustrySectors.length; dI++)
+        // {
+        //     for(let diC=0; diC < allIndustrySectors[dI][1].length; diC++)
+        //     {
+        //         if(ctSingleCandidateSharesData[0] == allIndustrySectors[dI][1][diC])
+        //         {
+        //             isFind = true;
+        //             let ctValue = -99999;
+        //             for(let dvalueIndex = 0; dvalueIndex < allIndustrySectorsValues.length; dvalueIndex++)
+        //             {
+        //                 if(allIndustrySectors[dI][0] == allIndustrySectorsValues[dvalueIndex][1]){
+        //                     ctValue = allIndustrySectorsValues[dvalueIndex][5];
+        //                     break;
+        //                 }
+        //             }
+        //             ctSingleCandidateSharesData.push(allIndustrySectors[dI][0]);
+        //             ctSingleCandidateSharesData.push(ctValue);
+        //         }
+        //     }
+        // }
+        ctSingleCandidateSharesData.push(-1);
+        ctSingleCandidateSharesData.push(-1);
         candidateSharesData.push(ctSingleCandidateSharesData);
     }
 
