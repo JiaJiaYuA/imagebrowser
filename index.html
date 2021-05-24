@@ -241,7 +241,7 @@
                         priceRadio6+priceRadio7+priceRadio8+priceRadio9+priceRadio10+
                         priceRadio11+priceRadio12+priceRadio13+priceRadio14+priceRadio15)/15.;
 
-        if(avgRadio>1.5){
+        if(avgRadio>1){
             continue;
         }
 
@@ -379,8 +379,12 @@
             ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += ",    ";
             ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += Math.floor(avgRadio15*100)/100.;
 
+            if(!isGood){
+                continue;
+            }
             if(avgRadio > 1){
                 isGood = false;
+                continue;
             }
             if(isGood)
             {
@@ -443,7 +447,7 @@
         ctSingleCandidateSharesData.push(tdRadio); // 竞价放量比
         let isGood = true;
         if(HighstNum == 0){
-        ctSingleCandidateSharesData.push("5天0板"); // 打板类别
+            ctSingleCandidateSharesData.push("5天0板"); // 打板类别
         }
         else if(HighstNum == 1)
         {
@@ -501,8 +505,14 @@
 
         ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",   ";
         ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += Math.floor(avgRadio15*100)/100.;
+
+        if(!isGood){
+            continue;
+        }
+
         if(avgRadio > 1){
             isGood = false;
+            continue;
         }
         if(isGood)
         {
