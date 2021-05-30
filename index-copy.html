@@ -78,6 +78,8 @@
 <!--    <div class="mainContent">-->
 <!--        <canvas id="myCanvas" ></canvas>-->
 <!--    </div>-->
+<!--    <textarea id="outputInfoArea00" width=300></textarea>-->
+<!--    <textarea id="outputInfoArea11" width=300></textarea>-->
     <textarea id="outputInfoArea" width=300></textarea>
     <textarea id="outputInfoArea1" width=300></textarea>
 </main>
@@ -111,6 +113,152 @@
 <script type="text/javascript">
     // ctHistoryData = []
     allHistoryData = myStr
+
+    for (let i=0; i < allHistoryData.length;i++)
+    {
+        if(i == 2586)
+        {
+            let b = 0;
+        }
+       // console.log(i);
+        if(allHistoryData[i][1] == "sz000991" || allHistoryData[i][1] == "sz002257" || allHistoryData[i][1] == "sz002525" || allHistoryData[i][1] == "sz002710" ||
+          allHistoryData[i][1] == "sz002720" || allHistoryData[i][1] == "sz002889" || allHistoryData[i][1] == "sh600083" || allHistoryData[i][1] == "sh600146" ||
+          allHistoryData[i][1] == "sh600349" || allHistoryData[i][1] == "sh601206" || allHistoryData[i][1] == "sh603302")
+        {
+            continue;
+        }
+        let ctHistoryData = allHistoryData[i][0];
+        for (let j=0; j < ctHistoryData.length;j++)
+        {
+            //console.log(j);
+            if(j > 0)
+            {
+                // 当前日期竞价率
+                let jjRadio = (Math.floor((ctHistoryData[j][1] - ctHistoryData[j-1][2])/ctHistoryData[j-1][2]*10000)/100.);
+                let spRadio = (Math.floor((ctHistoryData[j][2] - ctHistoryData[j-1][2])/ctHistoryData[j-1][2]*10000)/100.);
+                allHistoryData[i][0][j].push(jjRadio);
+                allHistoryData[i][0][j].push(spRadio);
+            }
+        }
+    }
+
+    //let ctData = "2021-05-28";
+
+    let allTodayData = []
+
+
+    for(let y=59; y<60;y++)
+    {
+        let calIndex = y;
+        let calDayNumbers1 = 10;
+        let calDayNumbers1Value = 0;
+        let calDayNumbers2 = 20;
+        let calDayNumbers2Value = 0;
+        let calDayNumbers3 = 30;
+        let calDayNumbers3Value = 0;
+        for (let i=0; i < allHistoryData.length;i++)
+        {
+            calDayNumbers1Value = 0;
+            calDayNumbers2Value = 0;
+            calDayNumbers3Value = 0;
+            if(allHistoryData[i][1] == "sz000001" || allHistoryData[i][1] == "sz000002" || allHistoryData[i][1] == "sz000556" || allHistoryData[i][1] == "sz000003"
+            || allHistoryData[i][1] == "sh603188"|| allHistoryData[i][1] == "sz000015"|| allHistoryData[i][1] == "sz002684"|| allHistoryData[i][1] == "sz002684"
+            || allHistoryData[i][1] == "sh600696"|| allHistoryData[i][1] == "sz000658"|| allHistoryData[i][1] == "sh603157"|| allHistoryData[i][1] == "sz000820"
+            || allHistoryData[i][1] == "sh600625"|| allHistoryData[i][1] == "sz002473"|| allHistoryData[i][1] == "sz002473"|| allHistoryData[i][1] == "sh600003"
+            || allHistoryData[i][1] == "sz000013"|| allHistoryData[i][1] == "sz002121"|| allHistoryData[i][1] == "sz000980"|| allHistoryData[i][1] == "sz000047")
+            {
+                continue;
+            }
+
+            if(allHistoryData[i][0] == null){
+                continue;
+            }
+
+            if(parseFloat(allHistoryData[i][0][calIndex][1]) < 3 || parseFloat(allHistoryData[i][0][calIndex][1]) > 100){
+                continue;
+            }
+
+           // console.log(i);
+
+            // if(i == 499)
+            // {
+            //     let b = 0;
+            // }
+
+            ctTodayData = [];
+
+            let ctHistoryData = allHistoryData[i][0];
+            ctTodayData.push(allHistoryData[i][1]); // 股票号
+            ctTodayData.push(ctHistoryData[calIndex][1]); // 开盘价
+            ctTodayData.push(ctHistoryData[calIndex][2]); // 收盘价
+            ctTodayData.push(ctHistoryData[calIndex][ctHistoryData[calIndex].length-2]); // 竞价涨幅
+            ctTodayData.push(ctHistoryData[calIndex][ctHistoryData[calIndex].length-1]); // 当日涨幅
+
+            for (let z=1; z<=calDayNumbers1;z++)
+            {
+                if(ctHistoryData[calIndex-z].length == 8){
+                    calDayNumbers1Value += parseFloat(ctHistoryData[calIndex-z][7]);
+                }
+                else
+                {
+                    calDayNumbers1Value += parseFloat(ctHistoryData[calIndex-z][8]);
+                }
+            }
+            ctTodayData.push(Math.floor(calDayNumbers1Value/calDayNumbers1*100)/100.);
+
+            for (let z=1; z<=calDayNumbers2;z++)
+            {
+                if(ctHistoryData[calIndex-z].length == 8){
+                    calDayNumbers2Value += parseFloat(ctHistoryData[calIndex-z][7]);
+                }
+                else
+                {
+                    calDayNumbers2Value += parseFloat(ctHistoryData[calIndex-z][8]);
+                }
+            }
+            ctTodayData.push(Math.floor(calDayNumbers2Value/calDayNumbers2*100)/100.);
+
+            for (let z=1; z<=calDayNumbers3;z++)
+            {
+                if(ctHistoryData[calIndex-z].length == 8){
+                    calDayNumbers3Value += parseFloat(ctHistoryData[calIndex-z][7]);
+                }
+                else
+                {
+                    calDayNumbers3Value += parseFloat(ctHistoryData[calIndex-z][8]);
+                }
+            }
+            ctTodayData.push(Math.floor(calDayNumbers3Value/calDayNumbers3*100)/100.);
+            allTodayData.push(ctTodayData);
+        }
+    }
+
+
+    let outputTextArea = document.querySelector('#outputInfoArea');
+    let outputTextArea1 = document.querySelector('#outputInfoArea1');
+    for (let x=0; x<allTodayData.length;x++)
+    {
+        // if(x == 2863){
+        //     let a = 0;
+        // }
+        if(allTodayData[x][3] <3 || allTodayData[x][3] > 9)
+        {
+            continue;
+        }
+
+        let ctHistoryData = allTodayData[x];
+
+        outputTextArea.value = outputTextArea.value + ctHistoryData[0] + ',' +
+                ctHistoryData[3] + ',' +
+                ctHistoryData[4] + ',' +
+                ctHistoryData[5] + ',' +
+                ctHistoryData[6] + ',' +
+                ctHistoryData[7] + ',' +
+        '\n';
+        //console.log(x);
+    }
+
+    let a = 0;
 </script>
 
 <script type="text/javascript" src="FileSaver.js"></script>
@@ -120,651 +268,7 @@
 
 <script type="text/javascript">
 
-    // 筛序集合竞价板
-    // 股票代码，名称，当前价，买一申请，买一报价， 卖一申请，卖一报价，成交金额，浮动值，今日开盘价，昨日收盘价
-    var candidateSharesData = [];
-    var candidateSharesData1 = [];
 
-    let maxGpNum = realSharesData.length;
-    for (let i=0;i<maxGpNum;i++)
-    {
-        let ctElements = realSharesData[i];
-        // 价格过低或过高
-        if(ctElements[3] < 2 || ctElements[3] > 100){
-            continue;
-        }
-
-        if(ctElements[0] == ''){
-            continue;
-        }
-
-        if(ctElements[10] == 'NaN' || ctElements[11] == 'NaN' || ctElements[20] == 'NaN' || ctElements[21] == 'NaN' || ctElements[9] == 'NaN')
-        {
-            continue;
-        }
-        let priceRadio = ((ctElements[3] - ctElements[2])/ctElements[2])*100;
-        // if(priceRadio < 3)
-        // {
-        //     continue;
-        // }
-
-        let priceOffset = ctElements[1] - ctElements[2];
-        let startPriceRadio =  Math.floor((priceOffset / ctElements[2]) * 10000, 4) / 100.;
-
-        if(ctElements[0].indexOf("ST") != -1){
-            continue;
-        }
-
-        if(ctElements[ctElements.length - 2] > 200){
-            continue;
-        }
-
-        let historyData = []
-        let yesTdayValue = -1;
-        for(let tHisIndex = 0; tHisIndex < allHistoryData.length; tHisIndex++)
-        {
-            if(realSharesData[i][realSharesData[i].length-1] == allHistoryData[tHisIndex][1]){
-                // console.log(tHisIndex);
-                if(allHistoryData[tHisIndex][0] == "undefined"){
-                    break;
-                }
-                if(allHistoryData[tHisIndex][1] == "sz002889"){
-                    break;
-                }
-                yesTdayValue = allHistoryData[tHisIndex][0][59][5];
-                historyData = allHistoryData[tHisIndex][0];
-                break;
-            }
-        }
-
-        if(yesTdayValue <= 0){
-            continue;
-        }
-
-        let tdRadio = Math.floor(ctElements[8]/100 / yesTdayValue * 100)/100.;
-
-        if(ctElements[8]/100 < 2000) {
-            continue;
-        }
-        // if(ctElements[8]/100 < yesTdayValue/10. && ctElements[8]/100 < 5000) {
-        //     continue;
-        // }
-
-        if(ctElements[35] == "sh603389"){
-            let b = 0;
-        }
-
-        // 打板类别
-        let HighstNum = 0
-        let addNum = 0;
-        let lastPrice1 = historyData[54][2]
-        let lastPrice2 = historyData[55][2]
-        let lastPrice3 = historyData[56][2]
-        let lastPrice4 = historyData[57][2]
-        let lastPrice5 = historyData[58][2]
-        let lastPrice6 = historyData[59][2]
-
-        let priceRadio1 = ((lastPrice2 - lastPrice1)/lastPrice1)*100;
-        let priceRadio2 = ((lastPrice3 - lastPrice2)/lastPrice2)*100;
-        let priceRadio3 = ((lastPrice4 - lastPrice3)/lastPrice3)*100;
-        let priceRadio4 = ((lastPrice5 - lastPrice4)/lastPrice4)*100;
-        let priceRadio5 = ((lastPrice6 - lastPrice5)/lastPrice5)*100;
-
-        // 近15
-        let lastPrice7 = historyData[53][2]
-        let lastPrice8 = historyData[52][2]
-        let lastPrice9 = historyData[51][2]
-        let lastPrice10 = historyData[50][2]
-        let lastPrice11 = historyData[49][2]
-        let lastPrice12 = historyData[48][2]
-        let lastPrice13 = historyData[47][2]
-        let lastPrice14 = historyData[46][2]
-        let lastPrice15 = historyData[45][2]
-        let lastPrice16 = historyData[44][2]
-
-        let priceRadio6 = ((lastPrice7 - lastPrice6)/lastPrice1)*100;
-        let priceRadio7 = ((lastPrice8 - lastPrice7)/lastPrice2)*100;
-        let priceRadio8 = ((lastPrice9 - lastPrice8)/lastPrice3)*100;
-        let priceRadio9 = ((lastPrice10 - lastPrice9)/lastPrice4)*100;
-        let priceRadio10 = ((lastPrice11 - lastPrice10)/lastPrice5)*100;
-        let priceRadio11 = ((lastPrice12 - lastPrice11)/lastPrice5)*100;
-        let priceRadio12 = ((lastPrice13 - lastPrice12)/lastPrice5)*100;
-        let priceRadio13 = ((lastPrice14 - lastPrice13)/lastPrice5)*100;
-        let priceRadio14 = ((lastPrice15 - lastPrice14)/lastPrice5)*100;
-        let priceRadio15 = ((lastPrice16 - lastPrice15)/lastPrice5)*100;
-
-
-
-
-        let avgRadio = (priceRadio1+priceRadio2+priceRadio3+priceRadio4+priceRadio5)/5.;
-        let avgRadio15 = (priceRadio1+priceRadio2+priceRadio3+priceRadio4+priceRadio5+
-                        priceRadio6+priceRadio7+priceRadio8+priceRadio9+priceRadio10+
-                        priceRadio11+priceRadio12+priceRadio13+priceRadio14+priceRadio15)/15.;
-
-        if(avgRadio>1){
-            continue;
-        }
-
-        let isTwoBan = false;
-        if(priceRadio1 > 9.89){
-            HighstNum++;
-        }
-
-        if(priceRadio2 > 9.89){
-            HighstNum++;
-        }
-
-        if(priceRadio3 > 9.89){
-            HighstNum++;
-        }
-
-        if(priceRadio4 > 9.89){
-            HighstNum++;
-        }
-
-        if(priceRadio5 > 9.89){
-            HighstNum++;
-        }
-
-        //
-        if(priceRadio1 > 1){
-            addNum++;
-        }
-
-        if(priceRadio2 > 1){
-            addNum++;
-        }
-
-        if(priceRadio3 > 1){
-            addNum++;
-        }
-
-        if(priceRadio4 > 1){
-            addNum++;
-        }
-
-        if(priceRadio5 > 1){
-            addNum++;
-        }
-
-        let isAddThreeDay = true;
-
-        if(priceRadio1 < 0 || priceRadio2 < 0 || priceRadio3 < 0){
-            isAddThreeDay = false;
-        }
-
-        if(priceRadio1 < 9.89 && priceRadio2 < 9.89 && priceRadio3 > 9.89)
-        {
-            isTwoBan = true;
-        }
-
-        if(startPriceRadio > 3 && startPriceRadio < 5)
-        {
-            var ctSingleCandidateSharesData1 = [];
-            ctSingleCandidateSharesData1.push(realSharesData[i][realSharesData[i].length-1]); // 股票代码
-            ctSingleCandidateSharesData1.push(ctElements[0]); // 当前名称
-            ctSingleCandidateSharesData1.push(ctElements[3]); // 当前价
-            ctSingleCandidateSharesData1.push(ctElements[10]/100); // 买一申请
-            ctSingleCandidateSharesData1.push(ctElements[11]); // 买一报价
-            ctSingleCandidateSharesData1.push(ctElements[20]/100); // 卖一申请
-            ctSingleCandidateSharesData1.push(ctElements[21]); // 卖一报价
-            ctSingleCandidateSharesData1.push(ctElements[9]/10000.0); // 成交金额
-            ctSingleCandidateSharesData1.push(priceRadio); // 浮动值
-            ctSingleCandidateSharesData1.push(startPriceRadio); // 竞价率
-            ctSingleCandidateSharesData1.push(ctElements[1]); // 今日开盘价
-            ctSingleCandidateSharesData1.push(ctElements[2]); // 昨日收盘价
-            ctSingleCandidateSharesData1.push(ctElements[8]); // 成交股数
-            ctSingleCandidateSharesData1.push(realSharesData[i][realSharesData[i].length-2]); // 流通市值
-            ctSingleCandidateSharesData1.push(yesTdayValue); // 昨日成交股数
-            ctSingleCandidateSharesData1.push(historyData); // 历史信息
-            ctSingleCandidateSharesData1.push(tdRadio); // 竞价放量比
-
-            let isGood = true;
-            if(HighstNum == 0){
-            ctSingleCandidateSharesData1.push("5天0板"); // 打板类别
-            }
-            else if(HighstNum == 1)
-            {
-                isGood = false
-                ctSingleCandidateSharesData1.push("5天1板"); // 打板类别
-            }
-            else if(HighstNum == 2)
-            {
-                isGood = false;
-                ctSingleCandidateSharesData1.push("5天2板"); // 打板类别
-            }
-            else if(HighstNum == 3)
-            {
-                isGood = false;
-                ctSingleCandidateSharesData1.push("5天3板"); // 打板类别
-            }
-            else if(HighstNum == 4)
-            {
-                isGood = false;
-                ctSingleCandidateSharesData1.push("5天4板"); // 打板类别
-            }
-            else if(HighstNum == 5)
-            {
-                isGood = false;
-                ctSingleCandidateSharesData1.push("5天5板"); // 打板类别
-            }
-
-            if(addNum == 0){
-                ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += ",5天0涨"
-            }
-            else if(addNum == 1)
-            {
-                ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += ",5天1涨"
-            }
-            else if(addNum == 2)
-            {
-                ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += ",5天2涨"
-            }
-            else if(addNum == 3)
-            {
-                ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += ",5天3涨"
-            }
-            else if(addNum == 4)
-            {
-                isGood = false;
-                ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += ",5天4涨"
-            }
-            else if(addNum == 5)
-            {
-                isGood = false;
-                ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += ",5天5涨"
-            }
-            ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += "，";
-            ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += Math.floor(avgRadio*100)/100.;
-            ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += ",    ";
-            ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += Math.floor(avgRadio15*100)/100.;
-
-            if(!isGood){
-                continue;
-            }
-            if(avgRadio > 1){
-                isGood = false;
-                continue;
-            }
-            if(isGood)
-            {
-                ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += ", 优选";
-            }
-
-            // isFind = false;
-            // for(let dI = 0; dI < allIndustrySectors.length; dI++)
-            // {
-            //     for(let diC=0; diC < allIndustrySectors[dI][1].length; diC++)
-            //     {
-            //         if(ctSingleCandidateSharesData1[0] == allIndustrySectors[dI][1][diC])
-            //         {
-            //             isFind = true;
-            //             let ctValue = -99999;
-            //             for(let dvalueIndex = 0; dvalueIndex < allIndustrySectorsValues.length; dvalueIndex++)
-            //             {
-            //                 if(allIndustrySectors[dI][0] == allIndustrySectorsValues[dvalueIndex][1]){
-            //                     ctValue = allIndustrySectorsValues[dvalueIndex][5];
-            //                     break;
-            //                 }
-            //             }
-            //             ctSingleCandidateSharesData1.push(allIndustrySectors[dI][0]);
-            //             ctSingleCandidateSharesData1.push(ctValue);
-            //         }
-            //     }
-            //     if(isFind){
-            //         break;
-            //     }
-            // }
-
-            ctSingleCandidateSharesData1.push(-1);
-            ctSingleCandidateSharesData1.push(-1);
-
-            candidateSharesData1.push(ctSingleCandidateSharesData1);
-        }
-
-        if(startPriceRadio < 5 || startPriceRadio > 9.8){
-            continue;
-        }
-
-
-        var ctSingleCandidateSharesData = [];
-        ctSingleCandidateSharesData.push(realSharesData[i][realSharesData[i].length-1]); // 股票代码
-        ctSingleCandidateSharesData.push(ctElements[0]); // 当前名称
-        ctSingleCandidateSharesData.push(ctElements[3]); // 当前价
-        ctSingleCandidateSharesData.push(ctElements[10]/100); // 买一申请
-        ctSingleCandidateSharesData.push(ctElements[11]); // 买一报价
-        ctSingleCandidateSharesData.push(ctElements[20]/100); // 卖一申请
-        ctSingleCandidateSharesData.push(ctElements[21]); // 卖一报价
-        ctSingleCandidateSharesData.push(ctElements[9]/10000.0); // 成交金额
-        ctSingleCandidateSharesData.push(priceRadio); // 浮动值
-        ctSingleCandidateSharesData.push(startPriceRadio); // 竞价率
-        ctSingleCandidateSharesData.push(ctElements[1]); // 今日开盘价
-        ctSingleCandidateSharesData.push(ctElements[2]); // 昨日收盘价
-        ctSingleCandidateSharesData.push(ctElements[8]); // 成交股数
-        ctSingleCandidateSharesData.push(realSharesData[i][realSharesData[i].length-2]); // 流通市值
-        ctSingleCandidateSharesData.push(yesTdayValue); // 成交股数
-        ctSingleCandidateSharesData.push(historyData); // 历史信息
-        ctSingleCandidateSharesData.push(tdRadio); // 竞价放量比
-        let isGood = true;
-        if(HighstNum == 0){
-            ctSingleCandidateSharesData.push("5天0板"); // 打板类别
-        }
-        else if(HighstNum == 1)
-        {
-            isGood = false
-            ctSingleCandidateSharesData.push("5天1板"); // 打板类别
-        }
-        else if(HighstNum == 2)
-        {
-            isGood = false;
-            ctSingleCandidateSharesData.push("5天2板"); // 打板类别
-        }
-        else if(HighstNum == 3)
-        {
-            isGood = false;
-            ctSingleCandidateSharesData.push("5天3板"); // 打板类别
-        }
-        else if(HighstNum == 4)
-        {
-            isGood = false;
-            ctSingleCandidateSharesData.push("5天4板"); // 打板类别
-        }
-        else if(HighstNum == 5)
-        {
-            isGood = false;
-            ctSingleCandidateSharesData.push("5天5板"); // 打板类别
-        }
-
-        if(addNum == 0){
-            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",5天0涨"
-        }
-        else if(addNum == 1)
-        {
-            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",5天1涨"
-        }
-        else if(addNum == 2)
-        {
-            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",5天2涨"
-        }
-        else if(addNum == 3)
-        {
-            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",5天3涨"
-        }
-        else if(addNum == 4)
-        {
-            isGood = false;
-            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",5天4涨"
-        }
-        else if(addNum == 5)
-        {
-            isGood = false;
-            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",5天5涨"
-        }
-        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += "，";
-        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += Math.floor(avgRadio*100)/100.;
-
-        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",   ";
-        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += Math.floor(avgRadio15*100)/100.;
-
-        if(!isGood){
-            continue;
-        }
-
-        if(avgRadio > 1){
-            isGood = false;
-            continue;
-        }
-        if(isGood)
-        {
-            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ", 优选";
-        }
-
-        // 确定行业板块
-        // isFind = false;
-        // for(let dI = 0; dI < allIndustrySectors.length; dI++)
-        // {
-        //     for(let diC=0; diC < allIndustrySectors[dI][1].length; diC++)
-        //     {
-        //         if(ctSingleCandidateSharesData[0] == allIndustrySectors[dI][1][diC])
-        //         {
-        //             isFind = true;
-        //             let ctValue = -99999;
-        //             for(let dvalueIndex = 0; dvalueIndex < allIndustrySectorsValues.length; dvalueIndex++)
-        //             {
-        //                 if(allIndustrySectors[dI][0] == allIndustrySectorsValues[dvalueIndex][1]){
-        //                     ctValue = allIndustrySectorsValues[dvalueIndex][5];
-        //                     break;
-        //                 }
-        //             }
-        //             ctSingleCandidateSharesData.push(allIndustrySectors[dI][0]);
-        //             ctSingleCandidateSharesData.push(ctValue);
-        //         }
-        //     }
-        // }
-        ctSingleCandidateSharesData.push(-1);
-        ctSingleCandidateSharesData.push(-1);
-        candidateSharesData.push(ctSingleCandidateSharesData);
-    }
-
-    // 按竞价量排序
-    candidateSharesData.sort(function (a,b) {
-            if (parseFloat(a[12]) < parseFloat(b[12]) ) {           // 按某种排序标准进行比较, a 小于 b
-                return 1;
-            }
-            if (parseFloat(a[12]) > parseFloat(b[12]) ) {
-                return -1;
-            }
-            // a must be equal to b
-            return 0;
-        });
-
-    candidateSharesData1.sort(function (a,b) {
-            if (parseFloat(a[12]) < parseFloat(b[12]) ) {           // 按某种排序标准进行比较, a 小于 b
-                return 1;
-            }
-            if (parseFloat(a[12]) > parseFloat(b[12]) ) {
-                return -1;
-            }
-            // a must be equal to b
-            return 0;
-        });
-
-    // 输出
-    let outputTextArea = document.querySelector('#outputInfoArea');
-    let outputTextArea1 = document.querySelector('#outputInfoArea1');
-
-    let jsonText = []
-     for(let j=0;j<candidateSharesData1.length;j++)
-    {
-        if(candidateSharesData1[j][1] == '')
-        {
-            continue;
-        }
-
-        if(candidateSharesData1[j][8] == 'NaN')
-        {
-            continue;
-        }
-
-
-        outputTextArea1.value = outputTextArea1.value +
-                candidateSharesData1[j][0] + ',  ' +
-                candidateSharesData1[j][1] + ',  ' +
-                // '当前价：' + Math.floor(candidateSharesData1[j][2]*100)/100. + '元' + ',  ' +
-                // '买一：' + Math.floor(candidateSharesData[j][3]) + '百手' + ',  ' +
-                // '买一：' + Math.floor(candidateSharesData[j][4]*100)/100. + '元' + ',  ' +
-                // '卖一：' + Math.floor(candidateSharesData[j][5]) + '百手' + ',  ' +
-                // '卖一：' + Math.floor(candidateSharesData[j][6]*100)/100. + '元' + ',  ' +
-                // '成交金额：' + Math.floor(candidateSharesData[j][7]) + '万元' + ',  ' +
-                '竞价量：' + Math.floor(candidateSharesData1[j][12]/100) + '' + ',  ' +
-                '竞价率：' + candidateSharesData1[j][9] + '%' + ',  ' +
-                '当前浮动值：' + Math.floor(candidateSharesData1[j][8]*100)/100. + '%' + ',  ' +
-                // '买一：' + Math.floor(candidateSharesData1[j][3])  + ',  ' +
-                // '卖一：' + Math.floor(candidateSharesData1[j][5])  + ',  ' +
-            '流通市值：' + Math.floor(candidateSharesData1[j][13]) + '亿' + ',  ' +
- //               '昨日成交股数：' + Math.floor(candidateSharesData1[j][14]) + '' + ',  ' +
- //               '竞价放量比：' + candidateSharesData1[j][16] + '' + ',  ' +
-                '\n' +
-                '打板类别：' + candidateSharesData1[j][17] + '' + ',  ' +
-             // '板块：' + candidateSharesData1[j][18] + '' + ',  ' +
-             // '板块增幅：' + Math.floor(candidateSharesData1[j][19]*100)/100.0 + '%' + ',  ' +
-                // '今日开盘价：' + candidateSharesData[j][10] + '元' + ',  ' +
-                // '昨日收盘价：' + candidateSharesData[j][11] + '元' + ',  ' +
-                '\n\n';
-
-        let singleJson = {
-            名称: candidateSharesData1[j][0] + ',' + candidateSharesData1[j][1],
-            当前价: Math.floor(candidateSharesData1[j][2]*100)/100. + '元',
-            当前浮动值: Math.floor(candidateSharesData1[j][8]*100)/100. + '%',
-            买一: Math.floor(candidateSharesData1[j][3]),
-            卖一: Math.floor(candidateSharesData1[j][5]),
-            竞价率: candidateSharesData1[j][9] + '%',
-            竞价成交量: Math.floor(candidateSharesData1[j][12]/100)
-        }
-        jsonText.push(singleJson);
-    }
-
-    let big2Num = 0;
-    let big2Radio = 0;
-
-    let big3Num = 0;
-    let big3Radio = 0;
-
-    let big4Num = 0;
-    let big4Radio = 0;
-
-    let big5Num = 0;
-    let big5Radio = 0;
-
-    let big6Num = 0;
-    let big6Radio = 0;
-
-    let big7Num = 0;
-    let big7Radio = 0;
-
-    let big8Num = 0;
-    let big8Radio = 0;
-
-    let big9Num = 0;
-    let big9Radio = 0;
-
-    let totalNum = 0;
-
-    for(let j=0;j<candidateSharesData.length;j++)
-    {
-        if(candidateSharesData[j][1] == '')
-        {
-            continue;
-        }
-
-        if(candidateSharesData[j][8] == 'NaN')
-        {
-            continue;
-        }
-
-        totalNum++;
-
-        if(candidateSharesData[j][9] > 2){
-            big2Num++;
-            if(candidateSharesData[j][2] >= candidateSharesData[j][10]){
-                big2Radio++;
-            }
-        }
-
-         if(candidateSharesData[j][9] > 3){
-            big3Num++;
-            if(candidateSharesData[j][2] >= candidateSharesData[j][10]){
-                big3Radio++;
-            }
-        }
-
-         if(candidateSharesData[j][9] > 4){
-            big4Num++;
-            if(candidateSharesData[j][2] >= candidateSharesData[j][10]){
-                big4Radio++;
-            }
-        }
-
-         if(candidateSharesData[j][9] > 5){
-            big5Num++;
-            if(candidateSharesData[j][2] >= candidateSharesData[j][10]){
-                big5Radio++;
-            }
-        }
-
-         if(candidateSharesData[j][9] > 6){
-            big6Num++;
-            if(candidateSharesData[j][2] >= candidateSharesData[j][10]){
-                big6Radio++;
-            }
-        }
-
-         if(candidateSharesData[j][9] > 7){
-            big7Num++;
-            if(candidateSharesData[j][2] >= candidateSharesData[j][10]){
-                big7Radio++;
-            }
-        }
-
-         if(candidateSharesData[j][9] > 8){
-            big8Num++;
-            if(candidateSharesData[j][2] >= candidateSharesData[j][10]){
-                big8Radio++;
-            }
-        }
-
-        outputTextArea.value = outputTextArea.value +
-                candidateSharesData[j][0] + ',  ' +
-                candidateSharesData[j][1] + ',  ' +
-                // '当前价：' + Math.floor(candidateSharesData[j][2]*100)/100. + '元' + ',  ' +
-                // '买一：' + Math.floor(candidateSharesData[j][3]) + '百手' + ',  ' +
-                // '买一：' + Math.floor(candidateSharesData[j][4]*100)/100. + '元' + ',  ' +
-                // '卖一：' + Math.floor(candidateSharesData[j][5]) + '百手' + ',  ' +
-                // '卖一：' + Math.floor(candidateSharesData[j][6]*100)/100. + '元' + ',  ' +
-                // '成交金额：' + Math.floor(candidateSharesData[j][7]) + '万元' + ',  ' +
-                '竞价量：' + Math.floor(candidateSharesData[j][12]/100) + '' + ',  ' +
-                '竞价率：' + candidateSharesData[j][9] + '%' + ',  ' +
-                '当前浮动值：' + Math.floor(candidateSharesData[j][8]*100)/100. + '%' + ',  ' +
-                // '买一：' + Math.floor(candidateSharesData[j][3])  + ',  ' +
-                // '卖一：' + Math.floor(candidateSharesData[j][5])  + ',  ' +
-                '\n' +
-            '流通市值：' + Math.floor(candidateSharesData[j][13]) + '亿' + ',  ' +
-  //          '昨日成交股数：' + Math.floor(candidateSharesData[j][14]) + '' + ',  ' +
-   //             '竞价放量比：' + candidateSharesData[j][16] + '' + ',  ' +
-                '打板类别：' + candidateSharesData[j][17] + '' + ',  ' +
-             // '板块：' + candidateSharesData[j][18] + '' + ',  ' +
-             // '板块增幅：' + Math.floor(candidateSharesData[j][19]*100)/100.0 + '%' + ',  ' +
-                // '今日开盘价：' + candidateSharesData[j][10] + '元' + ',  ' +
-                // '昨日收盘价：' + candidateSharesData[j][11] + '元' + ',  ' +
-                '\n\n';
-    }
-
-    var myDate = new Date();
-    var mytime=myDate.toLocaleTimeString();
-
-    timeStr = mytime.split(":");
-
-    if(timeStr[0] == "上午09")
-    {
-        if(parseFloat(timeStr[1]) >= 25 && parseFloat(timeStr[1]) <= 29)
-        {
-            var content = JSON.stringify(jsonText);
-            var blob = new Blob([content], {type: "text/plain;charset=utf-8"});
-            saveAs(blob, myDate.toLocaleDateString() + ".json");
-        }
-    }
-
-
-
-    // outputTextArea.value = outputTextArea.value +
-    //             '大于2成功率：' + Math.floor(big2Radio/big2Num*10000)/100. + '%' +  '\n' +
-    //             '大于3成功率：' + Math.floor(big3Radio/big3Num*10000)/100. + '%' +  '\n' +
-    //             '大于4成功率：' + Math.floor(big4Radio/big4Num*10000)/100. + '%' +  '\n' +
-    //             '大于5成功率：' + Math.floor(big5Radio/big5Num*10000)/100. + '%' +  '\n' +
-    //             '大于6成功率：' + Math.floor(big6Radio/big6Num*10000)/100. + '%' +  '\n' +
-    //             '大于7成功率：' + Math.floor(big7Radio/big7Num*10000)/100. + '%' +  '\n' +
-    //             '大于8成功率：' + Math.floor(big8Radio/big8Num*10000)/100. + '%' +  '\n' +
-    //             '\n';
 
 </script>
 
