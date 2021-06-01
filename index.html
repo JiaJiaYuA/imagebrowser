@@ -183,7 +183,7 @@
 
         let tdRadio = Math.floor(ctElements[8]/100 / yesTdayValue * 100)/100.;
 
-        if(ctElements[8]/100 < 2000) {
+        if(ctElements[8]/100 < 10000) {
             continue;
         }
         // if(ctElements[8]/100 < yesTdayValue/10. && ctElements[8]/100 < 5000) {
@@ -262,6 +262,10 @@
             HighstNum++;
         }
 
+        if(HighstNum > 1){
+            continue;
+        }
+        
         //
         if(priceRadio1 > 1){
             addNum++;
