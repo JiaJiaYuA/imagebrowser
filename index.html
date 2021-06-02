@@ -233,6 +233,32 @@
         let priceRadio14 = ((lastPrice15 - lastPrice14)/lastPrice5)*100;
         let priceRadio15 = ((lastPrice16 - lastPrice15)/lastPrice5)*100;
 
+        let maxBanIndex = 0;
+        let ctCnstIndex = 0;
+        let isFindStart = false;
+        for (let p=0;p<historyData.length-1;p++)
+        {
+            let preValue = historyData[p][2];
+            let newValue = historyData[p+1][2];
+            let priceRadio15 = ((newValue - preValue)/preValue)*100;
+            if(priceRadio15>9.8){
+                if(isFindStart){
+                    ctCnstIndex++;
+                }
+                else{
+                    isFindStart = true;
+                    ctCnstIndex = 1;
+                }
+            }
+            else
+            {
+                isFindStart = false;
+                if(maxBanIndex<ctCnstIndex){
+                    maxBanIndex = ctCnstIndex;
+                    ctCnstIndex = 0;
+                }
+            }
+        }
 
 
 
@@ -493,6 +519,7 @@
             isGood = false;
             ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",5天5涨"
         }
+        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ", 最高" + maxBanIndex + "连板";
         ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += "，";
         ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += Math.floor(avgRadio*100)/100.;
 
