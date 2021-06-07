@@ -267,6 +267,10 @@
                         priceRadio6+priceRadio7+priceRadio8+priceRadio9+priceRadio10+
                         priceRadio11+priceRadio12+priceRadio13+priceRadio14+priceRadio15)/15.;
 
+        if(avgRadio>4){
+            continue;
+        }
+
         let isTwoBan = false;
         if(priceRadio1 > 9.89){
             HighstNum++;
