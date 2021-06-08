@@ -184,7 +184,7 @@
 
         let tdRadio = Math.floor(ctElements[8]/100 / yesTdayValue * 100)/100.;
 
-        if(ctElements[8]/100 < 4000) {
+        if(ctElements[8]/100 < 1000) {
             continue;
         }
         // if(ctElements[8]/100 < yesTdayValue/10. && ctElements[8]/100 < 5000) {
@@ -203,7 +203,7 @@
         let nowPrice = historyData[59][1];
 
         let monthyPriceRadio = ((nowPrice - preMonthyPrice)/preMonthyPrice)*100;
-        if(monthyPriceRadio > 30){
+        if(monthyPriceRadio > 25){
             continue;
         }
 
@@ -282,8 +282,12 @@
         let avgRadio15 = (priceRadio1+priceRadio2+priceRadio3+priceRadio4+priceRadio5+
                         priceRadio6+priceRadio7+priceRadio8+priceRadio9+priceRadio10+
                         priceRadio11+priceRadio12+priceRadio13+priceRadio14+priceRadio15)/15.;
+        let avgRadio2 = (priceRadio5 + priceRadio4)/2.;
 
         if(avgRadio>4){
+            continue;
+        }
+        if(avgRadio2>-1){
             continue;
         }
 
@@ -455,7 +459,7 @@
         //     candidateSharesData1.push(ctSingleCandidateSharesData1);
         // }
 
-        if(startPriceRadio < 5 || startPriceRadio > 9){
+        if(startPriceRadio < 3 || startPriceRadio > 8){
         //if(startPriceRadio < 4 || startPriceRadio > 5){
             continue;
         }
@@ -539,10 +543,17 @@
         ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += Math.floor(avgRadio*100)/100.;
 
         ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",   ";
-        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += Math.floor(avgRadio15*100)/100.;
+        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += Math.floor(avgRadio2*100)/100.;
 
         ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",   ";
         ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += Math.floor(monthyPriceRadio);
+
+        if(startPriceRadio > 5)
+        {
+            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",   ";
+            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += "优选";
+        }
+
 
         // if(isGood)
         // {
