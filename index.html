@@ -119,12 +119,12 @@
 
 
 <script type="text/javascript">
-
     // 筛序集合竞价板
     // 股票代码，名称，当前价，买一申请，买一报价， 卖一申请，卖一报价，成交金额，浮动值，今日开盘价，昨日收盘价
     var candidateSharesData = [];
     var candidateSharesData1 = [];
 
+    let maxUpRadio = 9.79;
     let maxGpNum = realSharesData.length;
     for (let i=0;i<maxGpNum;i++)
     {
@@ -159,6 +159,7 @@
             continue;
         }
 
+        // 日期-开盘-收盘-最高-最低-成交量
         let historyData = []
         let yesTdayValue = -1;
         for(let tHisIndex = 0; tHisIndex < allHistoryData.length; tHisIndex++)
@@ -183,7 +184,7 @@
 
         let tdRadio = Math.floor(ctElements[8]/100 / yesTdayValue * 100)/100.;
 
-        if(ctElements[8]/100 < 10000) {
+        if(ctElements[8]/100 < 4000) {
             continue;
         }
         // if(ctElements[8]/100 < yesTdayValue/10. && ctElements[8]/100 < 5000) {
@@ -195,8 +196,17 @@
         }
 
         // 打板类别
-        let HighstNum = 0
+        let HighstNum = 0;
         let addNum = 0;
+
+        let preMonthyPrice =  historyData[28][2];
+        let nowPrice = historyData[59][1];
+
+        let monthyPriceRadio = ((nowPrice - preMonthyPrice)/preMonthyPrice)*100;
+        if(monthyPriceRadio > 30){
+            continue;
+        }
+
         let lastPrice1 = historyData[54][2]
         let lastPrice2 = historyData[55][2]
         let lastPrice3 = historyData[56][2]
@@ -209,6 +219,12 @@
         let priceRadio3 = ((lastPrice4 - lastPrice3)/lastPrice3)*100;
         let priceRadio4 = ((lastPrice5 - lastPrice4)/lastPrice4)*100;
         let priceRadio5 = ((lastPrice6 - lastPrice5)/lastPrice5)*100;
+
+        // 打首版
+        if(priceRadio5>maxUpRadio)
+        {
+            continue;
+        }
 
         // 近15
         let lastPrice7 = historyData[53][2]
@@ -272,23 +288,23 @@
         }
 
         let isTwoBan = false;
-        if(priceRadio1 > 9.89){
+        if(priceRadio1 > maxUpRadio){
             HighstNum++;
         }
 
-        if(priceRadio2 > 9.89){
+        if(priceRadio2 > maxUpRadio){
             HighstNum++;
         }
 
-        if(priceRadio3 > 9.89){
+        if(priceRadio3 > maxUpRadio){
             HighstNum++;
         }
 
-        if(priceRadio4 > 9.89){
+        if(priceRadio4 > maxUpRadio){
             HighstNum++;
         }
 
-        if(priceRadio5 > 9.89){
+        if(priceRadio5 > maxUpRadio){
             HighstNum++;
         }
 
@@ -317,7 +333,7 @@
             addNum++;
         }
 
-        if(priceRadio1 < 9.89 && priceRadio2 < 9.89 && priceRadio3 > 9.89)
+        if(priceRadio1 < maxUpRadio && priceRadio2 < maxUpRadio && priceRadio3 > maxUpRadio)
         {
             isTwoBan = true;
         }
@@ -439,7 +455,8 @@
         //     candidateSharesData1.push(ctSingleCandidateSharesData1);
         // }
 
-        if(startPriceRadio < 5 || startPriceRadio > 9.8){
+        if(startPriceRadio < 5 || startPriceRadio > 8){
+        //if(startPriceRadio < 4 || startPriceRadio > 5){
             continue;
         }
 
@@ -523,6 +540,9 @@
 
         ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",   ";
         ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += Math.floor(avgRadio15*100)/100.;
+
+        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",   ";
+        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += Math.floor(monthyPriceRadio);
 
         // if(isGood)
         // {
