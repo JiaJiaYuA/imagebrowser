@@ -220,8 +220,8 @@
         let priceRadio4 = ((lastPrice5 - lastPrice4)/lastPrice4)*100;
         let priceRadio5 = ((lastPrice6 - lastPrice5)/lastPrice5)*100;
 
-        // 打首版、二板
-        if(priceRadio5>maxUpRadio && priceRadio4>maxUpRadio)
+        // 打首版
+        if(priceRadio5>maxUpRadio)
         {
             continue;
         }
@@ -344,12 +344,8 @@
             isTwoBan = true;
         }
 
-        if(startPriceRadio < 3 || startPriceRadio > 9){
+        if(startPriceRadio < 3 || startPriceRadio > 8){
         //if(startPriceRadio < 4 || startPriceRadio > 5){
-            continue;
-        }
-
-        if(startPriceRadio<5 && !isTwoDayGood){
             continue;
         }
 
@@ -437,16 +433,15 @@
         ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",   ";
         ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += Math.floor(monthyPriceRadio);
 
-        if(startPriceRadio < 5)
-        {
-            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",   ";
-            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += "低开打首版优选";
-        }
-
         if(startPriceRadio > 5 && isTwoDayGood)
         {
             ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",   ";
-            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += "高开打板优选";
+            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += "高开优选";
+        }
+        if(startPriceRadio < 5 && isTwoDayGood)
+        {
+            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",   ";
+            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += "低开优选";
         }
 
         ctSingleCandidateSharesData.push(-1);
@@ -517,6 +512,7 @@
                 // '昨日收盘价：' + candidateSharesData[j][11] + '元' + ',  ' +
                 '\n\n';
     }
+
 </script>
 
 <!--<script type="text/javascript" src="http://money.finance.sina.com.cn/quotes_service/api/json_v2.php/CN_MarketData.getKLineData?symbol=sz000007&scale=5&ma=5&datalen=240" charSet="gb2312"></script>-->

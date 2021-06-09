@@ -220,7 +220,7 @@
         let priceRadio4 = ((lastPrice5 - lastPrice4)/lastPrice4)*100;
         let priceRadio5 = ((lastPrice6 - lastPrice5)/lastPrice5)*100;
 
-        // 打首版、二板
+        // 打首板、二板
         if(priceRadio5>maxUpRadio && priceRadio4>maxUpRadio)
         {
             continue;
@@ -344,12 +344,125 @@
             isTwoBan = true;
         }
 
-        if(startPriceRadio < 3 || startPriceRadio > 9){
-        //if(startPriceRadio < 4 || startPriceRadio > 5){
-            continue;
-        }
+        // if(startPriceRadio > 3 && startPriceRadio < 5)
+        // {
+        //     var ctSingleCandidateSharesData1 = [];
+        //     ctSingleCandidateSharesData1.push(realSharesData[i][realSharesData[i].length-1]); // 股票代码
+        //     ctSingleCandidateSharesData1.push(ctElements[0]); // 当前名称
+        //     ctSingleCandidateSharesData1.push(ctElements[3]); // 当前价
+        //     ctSingleCandidateSharesData1.push(ctElements[10]/100); // 买一申请
+        //     ctSingleCandidateSharesData1.push(ctElements[11]); // 买一报价
+        //     ctSingleCandidateSharesData1.push(ctElements[20]/100); // 卖一申请
+        //     ctSingleCandidateSharesData1.push(ctElements[21]); // 卖一报价
+        //     ctSingleCandidateSharesData1.push(ctElements[9]/10000.0); // 成交金额
+        //     ctSingleCandidateSharesData1.push(priceRadio); // 浮动值
+        //     ctSingleCandidateSharesData1.push(startPriceRadio); // 竞价率
+        //     ctSingleCandidateSharesData1.push(ctElements[1]); // 今日开盘价
+        //     ctSingleCandidateSharesData1.push(ctElements[2]); // 昨日收盘价
+        //     ctSingleCandidateSharesData1.push(ctElements[8]); // 成交股数
+        //     ctSingleCandidateSharesData1.push(realSharesData[i][realSharesData[i].length-2]); // 流通市值
+        //     ctSingleCandidateSharesData1.push(yesTdayValue); // 昨日成交股数
+        //     ctSingleCandidateSharesData1.push(historyData); // 历史信息
+        //     ctSingleCandidateSharesData1.push(tdRadio); // 竞价放量比
+        //
+        //     let isGood = true;
+        //     if(HighstNum == 0){
+        //     ctSingleCandidateSharesData1.push("5天0板"); // 打板类别
+        //     }
+        //     else if(HighstNum == 1)
+        //     {
+        //         isGood = false
+        //         ctSingleCandidateSharesData1.push("5天1板"); // 打板类别
+        //     }
+        //     else if(HighstNum == 2)
+        //     {
+        //         isGood = false;
+        //         ctSingleCandidateSharesData1.push("5天2板"); // 打板类别
+        //     }
+        //     else if(HighstNum == 3)
+        //     {
+        //         isGood = false;
+        //         ctSingleCandidateSharesData1.push("5天3板"); // 打板类别
+        //     }
+        //     else if(HighstNum == 4)
+        //     {
+        //         isGood = false;
+        //         ctSingleCandidateSharesData1.push("5天4板"); // 打板类别
+        //     }
+        //     else if(HighstNum == 5)
+        //     {
+        //         isGood = false;
+        //         ctSingleCandidateSharesData1.push("5天5板"); // 打板类别
+        //     }
+        //
+        //     if(addNum == 0){
+        //         ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += ",5天0涨"
+        //     }
+        //     else if(addNum == 1)
+        //     {
+        //         ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += ",5天1涨"
+        //     }
+        //     else if(addNum == 2)
+        //     {
+        //         ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += ",5天2涨"
+        //     }
+        //     else if(addNum == 3)
+        //     {
+        //         ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += ",5天3涨"
+        //     }
+        //     else if(addNum == 4)
+        //     {
+        //         isGood = false;
+        //         ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += ",5天4涨"
+        //     }
+        //     else if(addNum == 5)
+        //     {
+        //         isGood = false;
+        //         ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += ",5天5涨"
+        //     }
+        //     ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += "，";
+        //     ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += Math.floor(avgRadio*100)/100.;
+        //     ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += ",    ";
+        //     ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += Math.floor(avgRadio15*100)/100.;
+        //
+        //     if(isGood)
+        //     {
+        //         ctSingleCandidateSharesData1[ctSingleCandidateSharesData1.length-1] += ", 优选";
+        //     }
+        //
+        //     // isFind = false;
+        //     // for(let dI = 0; dI < allIndustrySectors.length; dI++)
+        //     // {
+        //     //     for(let diC=0; diC < allIndustrySectors[dI][1].length; diC++)
+        //     //     {
+        //     //         if(ctSingleCandidateSharesData1[0] == allIndustrySectors[dI][1][diC])
+        //     //         {
+        //     //             isFind = true;
+        //     //             let ctValue = -99999;
+        //     //             for(let dvalueIndex = 0; dvalueIndex < allIndustrySectorsValues.length; dvalueIndex++)
+        //     //             {
+        //     //                 if(allIndustrySectors[dI][0] == allIndustrySectorsValues[dvalueIndex][1]){
+        //     //                     ctValue = allIndustrySectorsValues[dvalueIndex][5];
+        //     //                     break;
+        //     //                 }
+        //     //             }
+        //     //             ctSingleCandidateSharesData1.push(allIndustrySectors[dI][0]);
+        //     //             ctSingleCandidateSharesData1.push(ctValue);
+        //     //         }
+        //     //     }
+        //     //     if(isFind){
+        //     //         break;
+        //     //     }
+        //     // }
+        //
+        //     ctSingleCandidateSharesData1.push(-1);
+        //     ctSingleCandidateSharesData1.push(-1);
+        //
+        //     candidateSharesData1.push(ctSingleCandidateSharesData1);
+        // }
 
-        if(startPriceRadio<5 && !isTwoDayGood){
+        if(startPriceRadio < 5 || startPriceRadio > 9.5){
+        //if(startPriceRadio < 4 || startPriceRadio > 5){
             continue;
         }
 
@@ -437,18 +550,40 @@
         ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",   ";
         ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += Math.floor(monthyPriceRadio);
 
-        if(startPriceRadio < 5)
+        if(isTwoDayGood)
         {
             ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",   ";
-            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += "低开打首版优选";
+            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += "优选";
         }
 
-        if(startPriceRadio > 5 && isTwoDayGood)
-        {
-            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",   ";
-            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += "高开打板优选";
-        }
 
+        // if(isGood)
+        // {
+        //     ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ", 优选";
+        // }
+
+        // 确定行业板块
+        // isFind = false;
+        // for(let dI = 0; dI < allIndustrySectors.length; dI++)
+        // {
+        //     for(let diC=0; diC < allIndustrySectors[dI][1].length; diC++)
+        //     {
+        //         if(ctSingleCandidateSharesData[0] == allIndustrySectors[dI][1][diC])
+        //         {
+        //             isFind = true;
+        //             let ctValue = -99999;
+        //             for(let dvalueIndex = 0; dvalueIndex < allIndustrySectorsValues.length; dvalueIndex++)
+        //             {
+        //                 if(allIndustrySectors[dI][0] == allIndustrySectorsValues[dvalueIndex][1]){
+        //                     ctValue = allIndustrySectorsValues[dvalueIndex][5];
+        //                     break;
+        //                 }
+        //             }
+        //             ctSingleCandidateSharesData.push(allIndustrySectors[dI][0]);
+        //             ctSingleCandidateSharesData.push(ctValue);
+        //         }
+        //     }
+        // }
         ctSingleCandidateSharesData.push(-1);
         ctSingleCandidateSharesData.push(-1);
         candidateSharesData.push(ctSingleCandidateSharesData);
@@ -479,6 +614,72 @@
 
     // 输出
     let outputTextArea = document.querySelector('#outputInfoArea');
+    //let outputTextArea1 = document.querySelector('#outputInfoArea1');
+
+ //     for(let j=0;j<candidateSharesData1.length;j++)
+ //    {
+ //        if(candidateSharesData1[j][1] == '')
+ //        {
+ //            continue;
+ //        }
+ //
+ //        if(candidateSharesData1[j][8] == 'NaN')
+ //        {
+ //            continue;
+ //        }
+ //
+ //
+ //        outputTextArea1.value = outputTextArea1.value +
+ //                candidateSharesData1[j][0] + ',  ' +
+ //                candidateSharesData1[j][1] + ',  ' +
+ //                // '当前价：' + Math.floor(candidateSharesData1[j][2]*100)/100. + '元' + ',  ' +
+ //                // '买一：' + Math.floor(candidateSharesData[j][3]) + '百手' + ',  ' +
+ //                // '买一：' + Math.floor(candidateSharesData[j][4]*100)/100. + '元' + ',  ' +
+ //                // '卖一：' + Math.floor(candidateSharesData[j][5]) + '百手' + ',  ' +
+ //                // '卖一：' + Math.floor(candidateSharesData[j][6]*100)/100. + '元' + ',  ' +
+ //                // '成交金额：' + Math.floor(candidateSharesData[j][7]) + '万元' + ',  ' +
+ //                '竞价量：' + Math.floor(candidateSharesData1[j][12]/100) + '' + ',  ' +
+ //                '竞价率：' + candidateSharesData1[j][9] + '%' + ',  ' +
+ //                '当前浮动值：' + Math.floor(candidateSharesData1[j][8]*100)/100. + '%' + ',  ' +
+ //                // '买一：' + Math.floor(candidateSharesData1[j][3])  + ',  ' +
+ //                // '卖一：' + Math.floor(candidateSharesData1[j][5])  + ',  ' +
+ //            '流通市值：' + Math.floor(candidateSharesData1[j][13]) + '亿' + ',  ' +
+ // //               '昨日成交股数：' + Math.floor(candidateSharesData1[j][14]) + '' + ',  ' +
+ // //               '竞价放量比：' + candidateSharesData1[j][16] + '' + ',  ' +
+ //                '\n' +
+ //                '打板类别：' + candidateSharesData1[j][17] + '' + ',  ' +
+ //             // '板块：' + candidateSharesData1[j][18] + '' + ',  ' +
+ //             // '板块增幅：' + Math.floor(candidateSharesData1[j][19]*100)/100.0 + '%' + ',  ' +
+ //                // '今日开盘价：' + candidateSharesData[j][10] + '元' + ',  ' +
+ //                // '昨日收盘价：' + candidateSharesData[j][11] + '元' + ',  ' +
+ //                '\n\n';
+ //    }
+
+    let big2Num = 0;
+    let big2Radio = 0;
+
+    let big3Num = 0;
+    let big3Radio = 0;
+
+    let big4Num = 0;
+    let big4Radio = 0;
+
+    let big5Num = 0;
+    let big5Radio = 0;
+
+    let big6Num = 0;
+    let big6Radio = 0;
+
+    let big7Num = 0;
+    let big7Radio = 0;
+
+    let big8Num = 0;
+    let big8Radio = 0;
+
+    let big9Num = 0;
+    let big9Radio = 0;
+
+    let totalNum = 0;
 
     for(let j=0;j<candidateSharesData.length;j++)
     {
@@ -490,6 +691,57 @@
         if(candidateSharesData[j][8] == 'NaN')
         {
             continue;
+        }
+
+        totalNum++;
+
+        if(candidateSharesData[j][9] > 2){
+            big2Num++;
+            if(candidateSharesData[j][2] >= candidateSharesData[j][10]){
+                big2Radio++;
+            }
+        }
+
+         if(candidateSharesData[j][9] > 3){
+            big3Num++;
+            if(candidateSharesData[j][2] >= candidateSharesData[j][10]){
+                big3Radio++;
+            }
+        }
+
+         if(candidateSharesData[j][9] > 4){
+            big4Num++;
+            if(candidateSharesData[j][2] >= candidateSharesData[j][10]){
+                big4Radio++;
+            }
+        }
+
+         if(candidateSharesData[j][9] > 5){
+            big5Num++;
+            if(candidateSharesData[j][2] >= candidateSharesData[j][10]){
+                big5Radio++;
+            }
+        }
+
+         if(candidateSharesData[j][9] > 6){
+            big6Num++;
+            if(candidateSharesData[j][2] >= candidateSharesData[j][10]){
+                big6Radio++;
+            }
+        }
+
+         if(candidateSharesData[j][9] > 7){
+            big7Num++;
+            if(candidateSharesData[j][2] >= candidateSharesData[j][10]){
+                big7Radio++;
+            }
+        }
+
+         if(candidateSharesData[j][9] > 8){
+            big8Num++;
+            if(candidateSharesData[j][2] >= candidateSharesData[j][10]){
+                big8Radio++;
+            }
         }
 
         outputTextArea.value = outputTextArea.value +
@@ -517,6 +769,19 @@
                 // '昨日收盘价：' + candidateSharesData[j][11] + '元' + ',  ' +
                 '\n\n';
     }
+
+
+
+    // outputTextArea.value = outputTextArea.value +
+    //             '大于2成功率：' + Math.floor(big2Radio/big2Num*10000)/100. + '%' +  '\n' +
+    //             '大于3成功率：' + Math.floor(big3Radio/big3Num*10000)/100. + '%' +  '\n' +
+    //             '大于4成功率：' + Math.floor(big4Radio/big4Num*10000)/100. + '%' +  '\n' +
+    //             '大于5成功率：' + Math.floor(big5Radio/big5Num*10000)/100. + '%' +  '\n' +
+    //             '大于6成功率：' + Math.floor(big6Radio/big6Num*10000)/100. + '%' +  '\n' +
+    //             '大于7成功率：' + Math.floor(big7Radio/big7Num*10000)/100. + '%' +  '\n' +
+    //             '大于8成功率：' + Math.floor(big8Radio/big8Num*10000)/100. + '%' +  '\n' +
+    //             '\n';
+
 </script>
 
 <!--<script type="text/javascript" src="http://money.finance.sina.com.cn/quotes_service/api/json_v2.php/CN_MarketData.getKLineData?symbol=sz000007&scale=5&ma=5&datalen=240" charSet="gb2312"></script>-->
