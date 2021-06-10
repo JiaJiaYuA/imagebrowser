@@ -184,12 +184,9 @@
 
         let tdRadio = Math.floor(ctElements[8]/100 / yesTdayValue * 100)/100.;
 
-        if(ctElements[8]/100 < 5000) {
+        if(ctElements[8]/100 < 2000) {
             continue;
         }
-        // if(ctElements[8]/100 < yesTdayValue/10. && ctElements[8]/100 < 5000) {
-        //     continue;
-        // }
 
         if(ctElements[35] == "sh603389"){
             let b = 0;
@@ -203,7 +200,7 @@
         let nowPrice = historyData[59][1];
 
         let monthyPriceRadio = ((nowPrice - preMonthyPrice)/preMonthyPrice)*100;
-        if(monthyPriceRadio > 25){
+        if(monthyPriceRadio > 30){
             continue;
         }
 
@@ -285,12 +282,10 @@
         let avgRadio2 = (priceRadio5 + priceRadio4)/2.;
 
         if(avgRadio>4){
-            continue;
         }
 
-        let isTwoDayGood = true;
-        if(avgRadio2>-1){
-           isTwoDayGood = false;
+        if(avgRadio2>-1.21){
+            continue;
         }
 
         let isTwoBan = false;
@@ -315,7 +310,6 @@
         }
 
         if(HighstNum > 1){
-            continue;
         }
         
         //
@@ -344,15 +338,9 @@
             isTwoBan = true;
         }
 
-        if(startPriceRadio < 5 || startPriceRadio > 9.5){
-        //if(startPriceRadio < 4 || startPriceRadio > 5){
+        if(startPriceRadio < 5 || startPriceRadio > 9){
             continue;
         }
-
-        if(startPriceRadio<5 && !isTwoDayGood){
-            continue;
-        }
-
 
         var ctSingleCandidateSharesData = [];
         ctSingleCandidateSharesData.push(realSharesData[i][realSharesData[i].length-1]); // 股票代码
@@ -437,18 +425,6 @@
         ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",   ";
         ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += Math.floor(monthyPriceRadio);
 
-        if(startPriceRadio < 5)
-        {
-            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",   ";
-            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += "低开打首版优选";
-        }
-
-        if(startPriceRadio > 5 && isTwoDayGood)
-        {
-            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",   ";
-            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += "高开打板优选";
-        }
-
         ctSingleCandidateSharesData.push(-1);
         ctSingleCandidateSharesData.push(-1);
         candidateSharesData.push(ctSingleCandidateSharesData);
@@ -516,6 +492,10 @@
                 // '今日开盘价：' + candidateSharesData[j][10] + '元' + ',  ' +
                 // '昨日收盘价：' + candidateSharesData[j][11] + '元' + ',  ' +
                 '\n\n';
+    }
+    if(candidateSharesData.length == 0)
+    {
+        outputTextArea.value = "今日无合格股票";
     }
 </script>
 
