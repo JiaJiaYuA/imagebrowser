@@ -143,10 +143,6 @@
             continue;
         }
         let priceRadio = ((ctElements[3] - ctElements[2])/ctElements[2])*100;
-        // if(priceRadio < 3)
-        // {
-        //     continue;
-        // }
 
         let priceOffset = ctElements[1] - ctElements[2];
         let startPriceRadio =  Math.floor((priceOffset / ctElements[2]) * 10000, 4) / 100.;
@@ -156,7 +152,7 @@
         }
 
         if(ctElements[ctElements.length - 2] > 200){
-            continue;
+            //continue;
         }
 
         // 日期-开盘-收盘-最高-最低-成交量
@@ -184,7 +180,7 @@
 
         let tdRadio = Math.floor(ctElements[8]/100 / yesTdayValue * 100)/100.;
 
-        if(ctElements[8]/100 < 2000) {
+        if(ctElements[8]/100 < 1300) {
             continue;
         }
 
@@ -217,8 +213,65 @@
         let priceRadio4 = ((lastPrice5 - lastPrice4)/lastPrice4)*100;
         let priceRadio5 = ((lastPrice6 - lastPrice5)/lastPrice5)*100;
 
-        // 打首版、二板
-        if(priceRadio5>maxUpRadio && priceRadio4>maxUpRadio)
+        let isNeedFindGP = true;
+
+        let ctMaxRadio = priceRadio1;
+        if(ctMaxRadio < priceRadio2){
+            ctMaxRadio = priceRadio2;
+        }
+        if(ctMaxRadio < priceRadio3){
+            ctMaxRadio = priceRadio3;
+        }
+        if(ctMaxRadio < priceRadio4){
+            ctMaxRadio = priceRadio4;
+        }
+        if(ctMaxRadio < priceRadio5){
+            ctMaxRadio = priceRadio5;
+        }
+
+        let fNum = 0;
+        if(priceRadio1<= 0){
+            fNum++;
+        }
+        if(priceRadio2<= 0){
+            fNum++;
+        }
+        if(priceRadio3<= 0){
+            fNum++;
+        }
+        if(priceRadio4<= 0){
+            fNum++;
+        }
+        if(priceRadio5<= 0){
+            fNum++;
+        }
+
+        if(ctMaxRadio>3){
+            isNeedFindGP = false;
+        }
+
+        if(fNum<4){
+            isNeedFindGP = false;
+        }
+
+        if(priceRadio5 >= 0){
+            isNeedFindGP = false;
+        }
+
+        let isFiveDayFind = false;
+        let isPreTwoDayFind = false;
+        if(isNeedFindGP){
+            isFiveDayFind = true;
+        }
+
+        let preTwoRadio = (priceRadio5 + priceRadio4)/2.;
+
+        if(preTwoRadio<-2 && startPriceRadio > 4){
+           isNeedFindGP = true;
+           isPreTwoDayFind = true;
+        }
+
+        if(!isNeedFindGP)
         {
             continue;
         }
@@ -285,7 +338,7 @@
         }
 
         if(avgRadio2>-1.21){
-            continue;
+            //continue;
         }
 
         let isTwoBan = false;
@@ -338,7 +391,7 @@
             isTwoBan = true;
         }
 
-        if(startPriceRadio < 5 || startPriceRadio > 9){
+        if(startPriceRadio < 3 || startPriceRadio > 8){
             continue;
         }
 
@@ -424,6 +477,16 @@
 
         ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",   ";
         ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += Math.floor(monthyPriceRadio);
+
+        if(isFiveDayFind)
+        {
+            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ", 五连跌反弹";
+        }
+
+        if(isPreTwoDayFind)
+        {
+            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ", 两超跌反弹";
+        }
 
         ctSingleCandidateSharesData.push(-1);
         ctSingleCandidateSharesData.push(-1);
