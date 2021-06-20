@@ -87,7 +87,7 @@
     var candidateSharesData = [];
     var candidateSharesData1 = [];
 
-    let testIndex = 59;
+    let testIndex = 52;
     let maxUpRadio = 9.79;
     let maxGpNum = realSharesData.length;
     for (let i=0;i<maxGpNum;i++)
@@ -112,7 +112,7 @@
         }
 
         if(ctElements[ctElements.length - 2] > 200){
-           // continue;
+            continue;
         }
 
         // 日期-开盘-收盘-最高-最低-成交量
@@ -140,7 +140,7 @@
 
         let tdRadio = Math.floor(ctElements[8]/100 / yesTdayValue * 100)/100.;
 
-        if(ctElements[8]/100 < 1300) {
+        if(ctElements[8]/100 < 1000) {
             continue;
         }
 
@@ -175,6 +175,8 @@
         let priceRadio3 = ((lastPrice4 - lastPrice3)/lastPrice3)*100;
         let priceRadio4 = ((lastPrice5 - lastPrice4)/lastPrice4)*100;
         let priceRadio5 = ((lastPrice6 - lastPrice5)/lastPrice5)*100;
+
+
 
         let isNeedFindGP = true;
 
@@ -236,7 +238,7 @@
 
         if(!isNeedFindGP)
         {
-            continue;
+          //  continue;
         }
 
         // 近15
@@ -354,8 +356,51 @@
             isTwoBan = true;
         }
 
-        if(startPriceRadio < 3 || startPriceRadio > 8){
+        let isFindRadio = false;
+        if(startPriceRadio < -5){
+            // continue;
+            isFindRadio = true;
+        }
+        if(!isFindRadio)
+        {
             continue;
+        }
+
+        // if(startPriceRadio > -1){
+        //     continue;
+        // }
+
+        // 前一天开盘率
+        let preRadioKP = ((historyData[testIndex-1][1] - historyData[testIndex-2][2])/historyData[testIndex-2][2])*100;
+        let preRadioSP = priceRadio5;
+        let preCJL = historyData[testIndex-1][5]/10000;
+
+        let isMyGP = true;
+        if(preRadioKP > 3 && preRadioSP < preRadioKP-3)
+        {
+            //isMyGP = true;
+        }
+
+        let vMinusNum = 0;
+        if(priceRadio5<=0)
+        {
+            vMinusNum++;
+        }
+        if(priceRadio4<=0)
+        {
+            vMinusNum++;
+        }
+        if(priceRadio3<=0)
+        {
+            vMinusNum++;
+        }
+        if(vMinusNum < 2)
+        {
+            isMyGP = false;
+        }
+
+        if(!isMyGP){
+           //  continue;
         }
 
         var ctSingleCandidateSharesData = [];
@@ -433,13 +478,13 @@
         }
         ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ", 最高" + maxBanIndex + "连板";
         ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += "，";
-        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += Math.floor(avgRadio*100)/100.;
+        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += Math.floor(preRadioKP*100)/100.;
 
         ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",   ";
-        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += Math.floor(avgRadio2*100)/100.;
+        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += Math.floor(preRadioSP*100)/100.;
 
         ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",   ";
-        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += Math.floor(monthyPriceRadio);
+        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += Math.floor(preCJL*100)/100;
 
         ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",   ";
         ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += historyData[testIndex][0];
