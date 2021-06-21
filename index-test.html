@@ -87,7 +87,7 @@
     var candidateSharesData = [];
     var candidateSharesData1 = [];
 
-    let testIndex = 52;
+    let testIndex = 59;
     let maxUpRadio = 9.79;
     let maxGpNum = realSharesData.length;
     for (let i=0;i<maxGpNum;i++)
@@ -154,7 +154,7 @@
 
         let monthyPriceRadio = ((nowPrice - preMonthyPrice)/preMonthyPrice)*100;
         if(monthyPriceRadio > 30){
-            continue;
+            //continue;
         }
 
         let priceOffsetNow = historyData[testIndex][2] - historyData[testIndex-1][2];
@@ -176,6 +176,35 @@
         let priceRadio4 = ((lastPrice5 - lastPrice4)/lastPrice4)*100;
         let priceRadio5 = ((lastPrice6 - lastPrice5)/lastPrice5)*100;
 
+        let isHaveMaxAdd = false;
+
+        if(priceRadio5 > maxUpRadio){
+            isHaveMaxAdd = true;
+        }
+
+        if(priceRadio4 > maxUpRadio){
+            isHaveMaxAdd = true;
+        }
+
+        if(priceRadio3 > maxUpRadio){
+            isHaveMaxAdd = true;
+        }
+
+        if(priceRadio2 > maxUpRadio){
+            isHaveMaxAdd = true;
+        }
+
+        if(priceRadio1 > maxUpRadio){
+            isHaveMaxAdd = true;
+        }
+
+        if(!isHaveMaxAdd){
+            continue;
+        }
+
+        if(priceRadio5>0){
+            continue;
+        }
 
 
         let isNeedFindGP = true;
@@ -263,6 +292,38 @@
         let priceRadio13 = ((lastPrice14 - lastPrice13)/lastPrice5)*100;
         let priceRadio14 = ((lastPrice15 - lastPrice14)/lastPrice5)*100;
         let priceRadio15 = ((lastPrice16 - lastPrice15)/lastPrice5)*100;
+
+        // 计算最近20天最小价格
+        let minPriace = 0;
+        let maxPriace = 0;
+        for(let ti = 1; ti < 21; ti++)
+        {
+            if(ti == 1)
+            {
+                minPriace = parseFloat(historyData[testIndex-ti][2]);
+                maxPriace = parseFloat(historyData[testIndex-ti][2]);
+            }
+
+            if(minPriace > parseFloat(historyData[testIndex-ti][2]))
+            {
+                minPriace = parseFloat(historyData[testIndex-ti][2]);
+            }
+
+            if(maxPriace < parseFloat(historyData[testIndex-ti][2]))
+            {
+                maxPriace = parseFloat(historyData[testIndex-ti][2]);
+            }
+        }
+
+        if(nowPrice < minPriace*1.1)
+        {
+          //  continue;
+        }
+
+        if(maxPriace > minPriace*1.3)
+        {
+            continue;
+        }
 
         let maxBanIndex = 0;
         let ctCnstIndex = 0;
@@ -357,7 +418,7 @@
         }
 
         let isFindRadio = false;
-        if(startPriceRadio < -5){
+        if(startPriceRadio < -3){
             // continue;
             isFindRadio = true;
         }
