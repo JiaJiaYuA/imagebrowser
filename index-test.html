@@ -87,496 +87,342 @@
     var candidateSharesData = [];
     var candidateSharesData1 = [];
 
-    let testIndex = 59;
-    let maxUpRadio = 9.79;
-    let maxGpNum = realSharesData.length;
-    for (let i=0;i<maxGpNum;i++)
+    //for(let j = 30; j < 60; j++)
     {
-        let ctElements = realSharesData[i];
-        // 价格过低或过高
-        if(ctElements[3] < 2 || ctElements[3] > 100){
-            continue;
-        }
-
-        if(ctElements[0] == ''){
-            continue;
-        }
-
-        if(ctElements[10] == 'NaN' || ctElements[11] == 'NaN' || ctElements[20] == 'NaN' || ctElements[21] == 'NaN' || ctElements[9] == 'NaN')
+        let testIndex = 59;
+        let maxUpRadio = 9.79;
+        let maxGpNum = realSharesData.length;
+        for (let i=0;i<maxGpNum;i++)
         {
-            continue;
-        }
+            let ctElements = realSharesData[i];
+            // 价格过低或过高
+            if(ctElements[3] < 2 || ctElements[3] > 100){
+                continue;
+            }
 
-        if(ctElements[0].indexOf("ST") != -1){
-            continue;
-        }
+            if(ctElements[0] == ''){
+                continue;
+            }
 
-        if(ctElements[ctElements.length - 2] > 200){
-            continue;
-        }
+            if(ctElements[10] == 'NaN' || ctElements[11] == 'NaN' || ctElements[20] == 'NaN' || ctElements[21] == 'NaN' || ctElements[9] == 'NaN')
+            {
+                continue;
+            }
 
-        // 日期-开盘-收盘-最高-最低-成交量
-        let historyData = []
-        let yesTdayValue = -1;
-        for(let tHisIndex = 0; tHisIndex < allHistoryData.length; tHisIndex++)
-        {
-            if(realSharesData[i][realSharesData[i].length-1] == allHistoryData[tHisIndex][1]){
-                // console.log(tHisIndex);
-                if(allHistoryData[tHisIndex][0] == "undefined"){
+            if(ctElements[0].indexOf("ST") != -1){
+                continue;
+            }
+
+            if(ctElements[ctElements.length - 2] > 200){
+                continue;
+            }
+
+            // 日期-开盘-收盘-最高-最低-成交量
+            let historyData = []
+            let yesTdayValue = -1;
+            for(let tHisIndex = 0; tHisIndex < allHistoryData.length; tHisIndex++)
+            {
+                if(realSharesData[i][realSharesData[i].length-1] == allHistoryData[tHisIndex][1]){
+                    // console.log(tHisIndex);
+                    if(allHistoryData[tHisIndex][0] == "undefined"){
+                        break;
+                    }
+                    if(allHistoryData[tHisIndex][1] == "sz002889"){
+                        break;
+                    }
+                    yesTdayValue = allHistoryData[tHisIndex][0][59][5];
+                    historyData = allHistoryData[tHisIndex][0];
                     break;
                 }
-                if(allHistoryData[tHisIndex][1] == "sz002889"){
-                    break;
+            }
+
+            if(yesTdayValue <= 0){
+                continue;
+            }
+
+            let tdRadio = Math.floor(ctElements[8]/100 / yesTdayValue * 100)/100.;
+
+            // 成交量
+           // if(ctElements[8]/100 < 1000)
+            {
+                //continue;
+            }
+
+            let preMonthyPrice =  historyData[testIndex-30][2];
+            let nowPrice = historyData[testIndex][1];
+            let nowPriceSP = historyData[testIndex][2];
+            let preDayPrice = historyData[testIndex-1][2];
+            let preDayDayPrice = historyData[testIndex-2][2];
+            let preDayDayDayPrice = historyData[testIndex-3][2];
+
+            let tCurrtVolume = Math.floor(historyData[testIndex][5]);
+            let tPreDayVolume = Math.floor(historyData[testIndex-1][5]);
+
+            let tAvgVolume = 0;
+            for (let p = 0; p < 7; p++)
+            {
+                tAvgVolume += Math.floor(historyData[testIndex-1-p][5]);
+            }
+            tAvgVolume /= 7.;
+
+            // 与一个月前比价
+            let monthyPriceRadio = ((nowPrice - preMonthyPrice)/preMonthyPrice)*100;
+            if(monthyPriceRadio > 0){
+                continue;
+            }
+
+            let priceOffsetNow = historyData[testIndex][2] - historyData[testIndex-1][2];
+            let priceRadio = Math.floor((priceOffsetNow / historyData[testIndex-1][2]) * 10000, 4) / 100.;
+
+            let priceOffset = nowPrice - preDayPrice;
+            let startPriceRadio =  Math.floor((priceOffset / preDayPrice) * 10000, 4) / 100.;
+
+
+            let priceDDDOffset = preDayDayPrice - preDayDayDayPrice;
+            let prePriceDRadio =  Math.floor((priceDDDOffset / preDayDayDayPrice) * 10000, 4) / 100.;
+
+            let priceDDOffset = preDayPrice - preDayDayPrice;
+            let prePriceRadio =  Math.floor((priceDDOffset / preDayDayPrice) * 10000, 4) / 100.;
+
+
+            let nowDDOffset = nowPriceSP - preDayPrice;
+            let nowPriceRadio =  Math.floor((nowDDOffset / preDayPrice) * 10000, 4) / 100.;
+
+
+            // 近一个月涨幅
+            let priceRadioListMonth = [];
+
+            let fivePriceMaxNum = 0;
+            for (let p = 0; p < 30; p++)
+            {
+                let tNowPrice = historyData[testIndex-p][2];
+                let tPrePrice = historyData[testIndex-p-1][2];
+
+                let tNowRadio = ((tNowPrice - tPrePrice)/tPrePrice)*100;
+                priceRadioListMonth.push(tNowRadio);
+
+                if(p<5)
+                {
+                    if(tNowRadio > maxUpRadio)
+                    {
+                        fivePriceMaxNum++;
+                    }
                 }
-                yesTdayValue = allHistoryData[tHisIndex][0][59][5];
-                historyData = allHistoryData[tHisIndex][0];
-                break;
             }
-        }
 
-        if(yesTdayValue <= 0){
-            continue;
-        }
-
-        let tdRadio = Math.floor(ctElements[8]/100 / yesTdayValue * 100)/100.;
-
-        if(ctElements[8]/100 < 1000) {
-            continue;
-        }
-
-        // 打板类别
-        let HighstNum = 0;
-        let addNum = 0;
-
-        let preMonthyPrice =  historyData[testIndex-30][2];
-        let nowPrice = historyData[testIndex][1];
-        let preDayPrice = historyData[testIndex-1][2];
-
-        let monthyPriceRadio = ((nowPrice - preMonthyPrice)/preMonthyPrice)*100;
-        if(monthyPriceRadio > 30){
-            //continue;
-        }
-
-        let priceOffsetNow = historyData[testIndex][2] - historyData[testIndex-1][2];
-        let priceRadio = Math.floor((priceOffsetNow / historyData[testIndex-1][2]) * 10000, 4) / 100.;
-
-        let priceOffset = nowPrice - preDayPrice;
-        let startPriceRadio =  Math.floor((priceOffset / preDayPrice) * 10000, 4) / 100.;
-
-        let lastPrice1 = historyData[testIndex-6][2]
-        let lastPrice2 = historyData[testIndex-5][2]
-        let lastPrice3 = historyData[testIndex-4][2]
-        let lastPrice4 = historyData[testIndex-3][2]
-        let lastPrice5 = historyData[testIndex-2][2]
-        let lastPrice6 = historyData[testIndex-1][2]
-
-        let priceRadio1 = ((lastPrice2 - lastPrice1)/lastPrice1)*100;
-        let priceRadio2 = ((lastPrice3 - lastPrice2)/lastPrice2)*100;
-        let priceRadio3 = ((lastPrice4 - lastPrice3)/lastPrice3)*100;
-        let priceRadio4 = ((lastPrice5 - lastPrice4)/lastPrice4)*100;
-        let priceRadio5 = ((lastPrice6 - lastPrice5)/lastPrice5)*100;
-
-        let isHaveMaxAdd = false;
-
-        if(priceRadio5 > maxUpRadio){
-            isHaveMaxAdd = true;
-        }
-
-        if(priceRadio4 > maxUpRadio){
-            isHaveMaxAdd = true;
-        }
-
-        if(priceRadio3 > maxUpRadio){
-            isHaveMaxAdd = true;
-        }
-
-        if(priceRadio2 > maxUpRadio){
-            isHaveMaxAdd = true;
-        }
-
-        if(priceRadio1 > maxUpRadio){
-            isHaveMaxAdd = true;
-        }
-
-        if(!isHaveMaxAdd){
-            continue;
-        }
-
-        if(priceRadio5>0){
-            continue;
-        }
-
-
-        let isNeedFindGP = true;
-
-        let ctMaxRadio = priceRadio1;
-        if(ctMaxRadio < priceRadio2){
-            ctMaxRadio = priceRadio2;
-        }
-        if(ctMaxRadio < priceRadio3){
-            ctMaxRadio = priceRadio3;
-        }
-        if(ctMaxRadio < priceRadio4){
-            ctMaxRadio = priceRadio4;
-        }
-        if(ctMaxRadio < priceRadio5){
-            ctMaxRadio = priceRadio5;
-        }
-
-        let fNum = 0;
-        if(priceRadio1<= 0){
-            fNum++;
-        }
-        if(priceRadio2<= 0){
-            fNum++;
-        }
-        if(priceRadio3<= 0){
-            fNum++;
-        }
-        if(priceRadio4<= 0){
-            fNum++;
-        }
-        if(priceRadio5<= 0){
-            fNum++;
-        }
-
-        if(ctMaxRadio>3){
-            isNeedFindGP = false;
-        }
-
-        if(fNum<4){
-            isNeedFindGP = false;
-        }
-
-        if(priceRadio5 >= 0){
-            isNeedFindGP = false;
-        }
-
-        let isFiveDayFind = false;
-        let isPreTwoDayFind = false;
-        if(isNeedFindGP){
-            isFiveDayFind = true;
-        }
-
-        let preTwoRadio = (priceRadio5 + priceRadio4)/2.;
-
-        if(preTwoRadio<-2 && startPriceRadio > 4){
-           isNeedFindGP = true;
-           isPreTwoDayFind = true;
-        }
-
-        if(!isNeedFindGP)
-        {
-          //  continue;
-        }
-
-        // 近15
-        let lastPrice7 = historyData[testIndex-7][2]
-        let lastPrice8 = historyData[testIndex-8][2]
-        let lastPrice9 = historyData[testIndex-9][2]
-        let lastPrice10 = historyData[testIndex-10][2]
-        let lastPrice11 = historyData[testIndex-11][2]
-        let lastPrice12 = historyData[testIndex-12][2]
-        let lastPrice13 = historyData[testIndex-13][2]
-        let lastPrice14 = historyData[testIndex-14][2]
-        let lastPrice15 = historyData[testIndex-15][2]
-        let lastPrice16 = historyData[testIndex-16][2]
-
-        let priceRadio6 = ((lastPrice7 - lastPrice6)/lastPrice1)*100;
-        let priceRadio7 = ((lastPrice8 - lastPrice7)/lastPrice2)*100;
-        let priceRadio8 = ((lastPrice9 - lastPrice8)/lastPrice3)*100;
-        let priceRadio9 = ((lastPrice10 - lastPrice9)/lastPrice4)*100;
-        let priceRadio10 = ((lastPrice11 - lastPrice10)/lastPrice5)*100;
-        let priceRadio11 = ((lastPrice12 - lastPrice11)/lastPrice5)*100;
-        let priceRadio12 = ((lastPrice13 - lastPrice12)/lastPrice5)*100;
-        let priceRadio13 = ((lastPrice14 - lastPrice13)/lastPrice5)*100;
-        let priceRadio14 = ((lastPrice15 - lastPrice14)/lastPrice5)*100;
-        let priceRadio15 = ((lastPrice16 - lastPrice15)/lastPrice5)*100;
-
-        // 计算最近20天最小价格
-        let minPriace = 0;
-        let maxPriace = 0;
-        for(let ti = 1; ti < 21; ti++)
-        {
-            if(ti == 1)
+            // 近一个月成交量
+            let volumeListMonth = [];
+            for (let p = 0; p < 30; p++)
             {
-                minPriace = parseFloat(historyData[testIndex-ti][2]);
-                maxPriace = parseFloat(historyData[testIndex-ti][2]);
+                volumeListMonth.push(parseFloat(historyData[testIndex-p][5]));
             }
 
-            if(minPriace > parseFloat(historyData[testIndex-ti][2]))
+            // 打首版或二板
+            if(fivePriceMaxNum > 1)
             {
-                minPriace = parseFloat(historyData[testIndex-ti][2]);
+               // continue;
             }
 
-            if(maxPriace < parseFloat(historyData[testIndex-ti][2]))
+            let isFirstBan = true;
+            if(priceRadioListMonth[0] > maxUpRadio)
             {
-                maxPriace = parseFloat(historyData[testIndex-ti][2]);
+                isFirstBan = false;
             }
-        }
 
-        if(nowPrice < minPriace*1.1)
-        {
-          //  continue;
-        }
+            let isHengPan = false;
+            let isSuoliang = false;
 
-        if(maxPriace > minPriace*1.3)
-        {
-            continue;
-        }
-
-        let maxBanIndex = 0;
-        let ctCnstIndex = 0;
-        let isFindStart = false;
-        for (let p=0;p<historyData.length-1;p++)
-        {
-            let preValue = historyData[p][2];
-            let newValue = historyData[p+1][2];
-            let priceRadio15 = ((newValue - preValue)/preValue)*100;
-            if(priceRadio15>9.8){
-                if(isFindStart){
-                    ctCnstIndex++;
+            let avgRadioParam = 1;
+            let volumeBeiParam = 1.5;
+            let tAvgRadio = 0;
+            // 首版
+            if(isFirstBan)
+            {
+                // 是否横盘
+                for (let p = 0; p < 30; p++)
+                {
+                    tAvgRadio += priceRadioListMonth[p];
                 }
-                else{
-                    isFindStart = true;
-                    ctCnstIndex = 1;
+
+                if(tAvgRadio < avgRadioParam)
+                {
+                    isHengPan = true;
+                }
+
+                // 是否缩量
+                let tMaxVolume = 0;
+                let tMinVolume = 0;
+                let tAvgVolume = 0;
+                for (let p = 0; p < 30; p++)
+                {
+                    if(p==0)
+                    {
+                        tMaxVolume = parseFloat(volumeListMonth[p]);
+                        tMinVolume = parseFloat(volumeListMonth[p]);
+                    }
+                    if(tMaxVolume < parseFloat(volumeListMonth[p]))
+                    {
+                        tMaxVolume = parseFloat(volumeListMonth[p]);
+                    }
+                    if(tMinVolume > parseFloat(volumeListMonth[p]))
+                    {
+                        tMinVolume = parseFloat(volumeListMonth[p]);
+                    }
+                    tAvgVolume += parseFloat(volumeListMonth[p]);
+                }
+
+                tAvgVolume /= 30;
+                if(tAvgVolume/tMinVolume < volumeBeiParam)
+                {
+                    isSuoliang = true;
                 }
             }
             else
             {
-                isFindStart = false;
-                if(maxBanIndex<ctCnstIndex){
-                    maxBanIndex = ctCnstIndex;
-                    ctCnstIndex = 0;
+                // 是否横盘
+                for (let p = 1; p < 30; p++)
+                {
+                    tAvgRadio += priceRadioListMonth[p];
+                }
+
+                if(tAvgRadio < avgRadioParam)
+                {
+                    isHengPan = true;
+                }
+
+                // 是否缩量
+                let tMaxVolume = 0;
+                let tMinVolume = 0;
+                let tAvgVolume = 0;
+                for (let p = 1; p < 30; p++)
+                {
+                    if(p==0)
+                    {
+                        tMaxVolume = parseFloat(volumeListMonth[p]);
+                        tMinVolume = parseFloat(volumeListMonth[p]);
+                    }
+                    if(tMaxVolume < parseFloat(volumeListMonth[p]))
+                    {
+                        tMaxVolume = parseFloat(volumeListMonth[p]);
+                    }
+                    if(tMinVolume > parseFloat(volumeListMonth[p]))
+                    {
+                        tMinVolume = parseFloat(volumeListMonth[p]);
+                    }
+                    tAvgVolume += parseFloat(volumeListMonth[p]);
+                }
+
+                tAvgVolume /= 29;
+                if(tAvgVolume/tMinVolume < volumeBeiParam)
+                {
+                    isSuoliang = true;
                 }
             }
-        }
 
-        let avgRadio = (priceRadio1+priceRadio2+priceRadio3+priceRadio4+priceRadio5)/5.;
-        let avgRadio15 = (priceRadio1+priceRadio2+priceRadio3+priceRadio4+priceRadio5+
-                        priceRadio6+priceRadio7+priceRadio8+priceRadio9+priceRadio10+
-                        priceRadio11+priceRadio12+priceRadio13+priceRadio14+priceRadio15)/15.;
-        let avgRadio2 = (priceRadio5 + priceRadio4)/2.;
+            // 是否横盘，可分析
+            if(!isHengPan){
+                //continue;
+            }
 
-        if(avgRadio>4){
-            //continue;
-        }
+            if(!isSuoliang){
+               // continue;
+            }
 
-        if(avgRadio2>-1){
-           // continue;
-        }
+            if(isFirstBan)
+            {
+                if(startPriceRadio < 1)
+                {
+                   // continue;
+                }
+            }
 
-        let isTwoBan = false;
-        if(priceRadio1 > maxUpRadio){
-            HighstNum++;
-        }
+            let isMyGoodGP = false;
+            // if(prePriceDRadio > 3 && Math.abs(nowPriceRadio) < 1.5 && Math.abs(prePriceRadio) < 1.5)
+            // {
+            //     isMyGoodGP = true;
+            // }
+            // if(!isMyGoodGP)
+            // {
+            //     continue;
+            // }
 
-        if(priceRadio2 > maxUpRadio){
-            HighstNum++;
-        }
+            if(tCurrtVolume/tAvgVolume > 2.5 && nowPriceRadio > 3)
+            //if(tCurrtVolume/tAvgVolume > 3. )
+            {
+                isMyGoodGP = true;
+            }
 
-        if(priceRadio3 > maxUpRadio){
-            HighstNum++;
-        }
+            if(tCurrtVolume > tPreDayVolume)
+            {
+              //  isMyGoodGP = false;
+            }
 
-        if(priceRadio4 > maxUpRadio){
-            HighstNum++;
-        }
-
-        if(priceRadio5 > maxUpRadio){
-            HighstNum++;
-        }
-
-        if(HighstNum > 1){
-            //continue;
-        }
-        
-        //
-        if(priceRadio1 > 1){
-            addNum++;
-        }
-
-        if(priceRadio2 > 1){
-            addNum++;
-        }
-
-        if(priceRadio3 > 1){
-            addNum++;
-        }
-
-        if(priceRadio4 > 1){
-            addNum++;
-        }
-
-        if(priceRadio5 > 1){
-            addNum++;
-        }
-
-        if(priceRadio1 < maxUpRadio && priceRadio2 < maxUpRadio && priceRadio3 > maxUpRadio)
-        {
-            isTwoBan = true;
-        }
-
-        let isFindRadio = false;
-        if(startPriceRadio < -3){
-            // continue;
-            isFindRadio = true;
-        }
-        if(!isFindRadio)
-        {
-            continue;
-        }
-
-        // if(startPriceRadio > -1){
-        //     continue;
-        // }
-
-        // 前一天开盘率
-        let preRadioKP = ((historyData[testIndex-1][1] - historyData[testIndex-2][2])/historyData[testIndex-2][2])*100;
-        let preRadioSP = priceRadio5;
-        let preCJL = historyData[testIndex-1][5]/10000;
-
-        let isMyGP = true;
-        if(preRadioKP > 3 && preRadioSP < preRadioKP-3)
-        {
-            //isMyGP = true;
-        }
-
-        let vMinusNum = 0;
-        if(priceRadio5<=0)
-        {
-            vMinusNum++;
-        }
-        if(priceRadio4<=0)
-        {
-            vMinusNum++;
-        }
-        if(priceRadio3<=0)
-        {
-            vMinusNum++;
-        }
-        if(vMinusNum < 2)
-        {
-            isMyGP = false;
-        }
-
-        if(!isMyGP){
-           //  continue;
-        }
-
-        var ctSingleCandidateSharesData = [];
-        ctSingleCandidateSharesData.push(realSharesData[i][realSharesData[i].length-1]); // 股票代码
-        ctSingleCandidateSharesData.push(ctElements[0]); // 当前名称
-        ctSingleCandidateSharesData.push(ctElements[3]); // 当前价
-        ctSingleCandidateSharesData.push(ctElements[10]/100); // 买一申请
-        ctSingleCandidateSharesData.push(ctElements[11]); // 买一报价
-        ctSingleCandidateSharesData.push(ctElements[20]/100); // 卖一申请
-        ctSingleCandidateSharesData.push(ctElements[21]); // 卖一报价
-        ctSingleCandidateSharesData.push(ctElements[9]/10000.0); // 成交金额
-        ctSingleCandidateSharesData.push(priceRadio); // 浮动值
-        ctSingleCandidateSharesData.push(startPriceRadio); // 竞价率
-        ctSingleCandidateSharesData.push(ctElements[1]); // 今日开盘价
-        ctSingleCandidateSharesData.push(ctElements[2]); // 昨日收盘价
-        ctSingleCandidateSharesData.push(ctElements[8]); // 成交股数
-        ctSingleCandidateSharesData.push(realSharesData[i][realSharesData[i].length-2]); // 流通市值
-        ctSingleCandidateSharesData.push(yesTdayValue); // 成交股数
-        ctSingleCandidateSharesData.push(historyData); // 历史信息
-        ctSingleCandidateSharesData.push(tdRadio); // 竞价放量比
-        let isGood = true;
-        if(HighstNum == 0){
-            ctSingleCandidateSharesData.push("5天0板"); // 打板类别
-        }
-        else if(HighstNum == 1)
-        {
-            isGood = false
-            ctSingleCandidateSharesData.push("5天1板"); // 打板类别
-        }
-        else if(HighstNum == 2)
-        {
-            isGood = false;
-            ctSingleCandidateSharesData.push("5天2板"); // 打板类别
-        }
-        else if(HighstNum == 3)
-        {
-            isGood = false;
-            ctSingleCandidateSharesData.push("5天3板"); // 打板类别
-        }
-        else if(HighstNum == 4)
-        {
-            isGood = false;
-            ctSingleCandidateSharesData.push("5天4板"); // 打板类别
-        }
-        else if(HighstNum == 5)
-        {
-            isGood = false;
-            ctSingleCandidateSharesData.push("5天5板"); // 打板类别
-        }
-
-        if(addNum == 0){
-            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",5天0涨"
-        }
-        else if(addNum == 1)
-        {
-            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",5天1涨"
-        }
-        else if(addNum == 2)
-        {
-            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",5天2涨"
-        }
-        else if(addNum == 3)
-        {
-            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",5天3涨"
-        }
-        else if(addNum == 4)
-        {
-            isGood = false;
-            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",5天4涨"
-        }
-        else if(addNum == 5)
-        {
-            isGood = false;
-            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",5天5涨"
-        }
-        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ", 最高" + maxBanIndex + "连板";
-        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += "，";
-        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += Math.floor(preRadioKP*100)/100.;
-
-        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",   ";
-        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += Math.floor(preRadioSP*100)/100.;
-
-        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",   ";
-        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += Math.floor(preCJL*100)/100;
-
-        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ",   ";
-        ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += historyData[testIndex][0];
-
-        if(isFiveDayFind)
-        {
-            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ", 五连跌反弹";
-        }
-
-        if(isPreTwoDayFind)
-        {
-            ctSingleCandidateSharesData[ctSingleCandidateSharesData.length-1] += ", 两超跌反弹";
-        }
+            if(prePriceRadio < 9)
+            {
+              //  isMyGoodGP = false;
+            }
 
 
-        ctSingleCandidateSharesData.push(-1);
-        ctSingleCandidateSharesData.push(-1);
-        candidateSharesData.push(ctSingleCandidateSharesData);
+            if(!isMyGoodGP)
+            {
+                continue;
+            }
+
+            var ctSingleCandidateSharesData = [];
+            ctSingleCandidateSharesData.push(realSharesData[i][realSharesData[i].length-1]); // 股票代码
+            ctSingleCandidateSharesData.push(ctElements[0]); // 当前名称
+            ctSingleCandidateSharesData.push(ctElements[3]); // 当前价
+            ctSingleCandidateSharesData.push(ctElements[10]/100); // 买一申请
+            ctSingleCandidateSharesData.push(ctElements[11]); // 买一报价
+            ctSingleCandidateSharesData.push(ctElements[20]/100); // 卖一申请
+            ctSingleCandidateSharesData.push(ctElements[21]); // 卖一报价
+            ctSingleCandidateSharesData.push(ctElements[9]/10000.0); // 成交金额
+            ctSingleCandidateSharesData.push(priceRadio); // 浮动值
+            ctSingleCandidateSharesData.push(startPriceRadio); // 竞价率
+            ctSingleCandidateSharesData.push(ctElements[1]); // 今日开盘价
+            ctSingleCandidateSharesData.push(ctElements[2]); // 昨日收盘价
+            ctSingleCandidateSharesData.push(ctElements[8]); // 成交股数
+            ctSingleCandidateSharesData.push(realSharesData[i][realSharesData[i].length-2]); // 流通市值
+            ctSingleCandidateSharesData.push(yesTdayValue); // 成交股数
+            ctSingleCandidateSharesData.push(historyData[testIndex][0]); // 历史信息
+            ctSingleCandidateSharesData.push(tdRadio); // 竞价放量比
+
+            // if(isHengPan){
+            //     if(isFirstBan)
+            //     {
+            //         ctSingleCandidateSharesData.push("横盘, 缩量, 首板," + Math.floor(tAvgRadio*100)/100. + "," + historyData[testIndex][0]); // 打板类别
+            //     }
+            //     else {
+            //         ctSingleCandidateSharesData.push("横盘, 缩量, 二板," + Math.floor(tAvgRadio*100)/100. + "," + historyData[testIndex][0]); // 打板类别
+            //     }
+            // }
+            // else
+            // {
+            //     if(isFirstBan)
+            //     {
+            //         ctSingleCandidateSharesData.push("缩量, 首板,"+ Math.floor(tAvgRadio*100)/100. + "," + historyData[testIndex][0]); // 打板类别
+            //     }
+            //     else {
+            //         ctSingleCandidateSharesData.push("缩量, 二板,"+ Math.floor(tAvgRadio*100)/100. + "," + historyData[testIndex][0]); // 打板类别
+            //     }
+            // }
+
+            candidateSharesData.push(ctSingleCandidateSharesData);
+        }
     }
 
-    // 按竞价量排序
-    candidateSharesData.sort(function (a,b) {
-            if (parseFloat(a[12]) < parseFloat(b[12]) ) {           // 按某种排序标准进行比较, a 小于 b
-                return 1;
-            }
-            if (parseFloat(a[12]) > parseFloat(b[12]) ) {
-                return -1;
-            }
-            // a must be equal to b
-            return 0;
-        });
+
+    // // 按竞价量排序
+    // candidateSharesData.sort(function (a,b) {
+    //         if (parseFloat(a[12]) < parseFloat(b[12]) ) {           // 按某种排序标准进行比较, a 小于 b
+    //             return 1;
+    //         }
+    //         if (parseFloat(a[12]) > parseFloat(b[12]) ) {
+    //             return -1;
+    //         }
+    //         // a must be equal to b
+    //         return 0;
+    //     });
 
     // 输出
     let outputTextArea = document.querySelector('#outputInfoArea');
@@ -602,8 +448,9 @@
                 '当前浮动值：' + Math.floor(candidateSharesData[j][8]*100)/100. + '%' + ',  ' +
                 '\n' +
             '流通市值：' + Math.floor(candidateSharesData[j][13]) + '亿' + ',  ' +
-                '打板类别：' + candidateSharesData[j][17] + '' + ',  ' +
-                '\n\n';
+                //'打板类别：' + candidateSharesData[j][17] + '' + ',  ' +
+                '日期：' + candidateSharesData[j][15] + '' + ',  ' +
+            '\n\n';
     }
 
 
