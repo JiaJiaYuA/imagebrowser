@@ -117,6 +117,11 @@
                 continue;
             }
 
+            if(realSharesData[i][realSharesData[i].length-1] == "sz002178")
+            {
+                let a = 0;
+            }
+
             // 日期-开盘-收盘-最高-最低-成交量
             let historyData = []
             let yesTdayValue = -1;
@@ -142,6 +147,12 @@
 
             let tdRadio = Math.floor(ctElements[8]/100 / yesTdayValue * 100)/100.;
 
+            let priceOffset1 = ctElements[3] - ctElements[2];
+            let startPriceRadio1 =  Math.floor((priceOffset1 / ctElements[2]) * 10000, 4) / 100.;
+
+            let priceOffset2 = ctElements[1] - ctElements[2];
+            let startPriceRadio2 =  Math.floor((priceOffset2 / ctElements[2]) * 10000, 4) / 100.;
+
             // 成交量
            // if(ctElements[8]/100 < 1000)
             {
@@ -161,7 +172,7 @@
             let tAvgVolume = 0;
             for (let p = 0; p < 7; p++)
             {
-                tAvgVolume += Math.floor(historyData[testIndex-1-p][5]);
+                tAvgVolume += Math.floor(historyData[testIndex-p][5]);
             }
             tAvgVolume /= 7.;
 
@@ -346,8 +357,9 @@
             //     continue;
             // }
 
-            if(tCurrtVolume/tAvgVolume > 2.5 && nowPriceRadio > 3)
+            //if(tCurrtVolume/tAvgVolume > 2.5 && nowPriceRadio > 3)
             //if(tCurrtVolume/tAvgVolume > 3. )
+            if(parseFloat(ctElements[8]) / 100. / tAvgVolume > 2.5 && startPriceRadio1 > 3)
             {
                 isMyGoodGP = true;
             }
@@ -377,8 +389,8 @@
             ctSingleCandidateSharesData.push(ctElements[20]/100); // 卖一申请
             ctSingleCandidateSharesData.push(ctElements[21]); // 卖一报价
             ctSingleCandidateSharesData.push(ctElements[9]/10000.0); // 成交金额
-            ctSingleCandidateSharesData.push(priceRadio); // 浮动值
-            ctSingleCandidateSharesData.push(startPriceRadio); // 竞价率
+            ctSingleCandidateSharesData.push(startPriceRadio1); // 浮动值
+            ctSingleCandidateSharesData.push(startPriceRadio2); // 竞价率
             ctSingleCandidateSharesData.push(ctElements[1]); // 今日开盘价
             ctSingleCandidateSharesData.push(ctElements[2]); // 昨日收盘价
             ctSingleCandidateSharesData.push(ctElements[8]); // 成交股数
