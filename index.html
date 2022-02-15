@@ -152,12 +152,14 @@
 
  //           let tdRadio = Math.floor(ctElements[8]/100 / yesTdayValue * 100)/100.;
 
-            let tdPriceOffset = ctElements[2] - ctElements[3];
-            let currtPriceRadio =  Math.floor((tdPriceOffset / ctElements[3]) * 10000, 4) / 100.;
+            let tdPriceOffset = ctElements[2] - historyData[testIndex][2];
+            let currtPriceRadio =  Math.floor((tdPriceOffset / historyData[testIndex][2]) * 10000, 4) / 100.;
 
-            let tdMaxPriceOffset = ctElements[5] - ctElements[3];
-            let currtMaxPriceRadio =  Math.floor((tdMaxPriceOffset / ctElements[3]) * 10000, 4) / 100.;
+            let tdMaxPriceOffset = ctElements[5] - ctElements[6];
+            let currtMaxMinPriceRadio =  Math.floor((tdMaxPriceOffset / ctElements[6]) * 10000, 4) / 100.;
 
+            let tdMaxPriceStartOffset = ctElements[5] - historyData[testIndex][2];
+            let currtMaxPriceRadio =  Math.floor((tdMaxPriceStartOffset / historyData[testIndex][2]) * 10000, 4) / 100.;
 
             let prePrice = historyData[testIndex][2];
             let preDayPrice = historyData[testIndex-1][2];
@@ -174,12 +176,17 @@
 
             if(priceRadio1 > maxUpRadio || priceRadio2 > maxUpRadio ||
             priceRadio3 > maxUpRadio || priceRadio4 > maxUpRadio ||
-            priceRadio5 > maxUpRadio)
+            priceRadio5 > maxUpRadio || currtPriceRadio > maxUpRadio)
             {
                 continue;
             }
 
-            if(currtPriceRadio < 4)
+            if(currtMaxMinPriceRadio < 4)
+            {
+                continue;
+            }
+
+            if(ctElements[2] < ctElements[3])
             {
                 continue;
             }
