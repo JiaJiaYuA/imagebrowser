@@ -196,9 +196,14 @@
                 let aar = 0;
             }
 
-            if(currtMaxPriceRadio - currtPriceRadio > 2)
+            if(currtMaxPriceRadio - currtPriceRadio > 1)
             {
                continue;
+            }
+
+            if(currtPriceRadio < 4)
+            {
+                continue;
             }
 
             if(ctElements[4] < 1.5)
