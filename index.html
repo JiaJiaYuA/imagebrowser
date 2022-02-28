@@ -152,6 +152,24 @@
 
  //           let tdRadio = Math.floor(ctElements[8]/100 / yesTdayValue * 100)/100.;
 
+            //
+            let tPreMaxPrice = -1;
+            for(let tPreIndex = 0; tPreIndex < 59; tPreIndex++)
+            {
+                if(tPreMaxPrice < historyData[tPreIndex][2])
+                {
+                    tPreMaxPrice = historyData[tPreIndex][2];
+                }
+            }
+
+            let tPreMaxPriceOffset30 = tPreMaxPrice - ctElements[2];
+            let tPreMaxPriceOffset30Radio =  Math.floor((tPreMaxPriceOffset30 / ctElements[2]) * 10000, 4) / 100.;
+
+            if(tPreMaxPriceOffset30Radio > 1.15)
+            {
+                continue;
+            }
+
             let tdPriceOffset = ctElements[2] - historyData[testIndex][2];
             let currtPriceRadio =  Math.floor((tdPriceOffset / historyData[testIndex][2]) * 10000, 4) / 100.;
 
@@ -201,7 +219,7 @@
                 let aar = 0;
             }
 
-            if(currtMaxPriceRadio - currtPriceRadio > 2)
+            if(currtMaxPriceRadio - currtPriceRadio > 1.5)
             {
                continue;
             }
