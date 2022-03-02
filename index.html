@@ -154,7 +154,7 @@
 
             //
             let tPreMaxPrice = -1;
-            for(let tPreIndex = 0; tPreIndex < 59; tPreIndex++)
+            for(let tPreIndex = 0; tPreIndex < 30; tPreIndex++)
             {
                 if(tPreMaxPrice < historyData[tPreIndex][2])
                 {
@@ -165,7 +165,7 @@
             let tPreMaxPriceOffset30 = tPreMaxPrice - ctElements[2];
             let tPreMaxPriceOffset30Radio =  Math.floor((tPreMaxPriceOffset30 / ctElements[2]) * 10000, 4) / 100.;
 
-            if(tPreMaxPriceOffset30Radio > 1.15)
+            if(tPreMaxPriceOffset30Radio > 25 ||  tPreMaxPriceOffset30Radio < 1.15)
             {
                 continue;
             }
