@@ -81,7 +81,7 @@
     var candidateSharesData1 = [];
 
     {
-        let testIndex = 59;
+        let testIndex = 60;
         let maxUpRadio = 9.79;
         let maxGpNum = realSharesData.length;
         for (let i=0;i<maxGpNum;i++)
@@ -140,7 +140,7 @@
                         continue;
                     }
                    // console.log("history for "+tHisIndex);
-                    yesTdayValue = allHistoryData[tHisIndex][0][59][5];
+                    yesTdayValue = allHistoryData[tHisIndex][0][allHistoryData[tHisIndex][0].length-1][5];
                     historyData = allHistoryData[tHisIndex][0];
                     break;
                 }
@@ -154,7 +154,7 @@
 
             //
             let tPreMaxPrice = -1;
-            for(let tPreIndex = 29; tPreIndex < 60; tPreIndex++)
+            for(let tPreIndex = historyData.length-30; tPreIndex < historyData.length; tPreIndex++)
             {
                 if(tPreMaxPrice < historyData[tPreIndex][2])
                 {
@@ -170,7 +170,7 @@
                 continue;
             }
 
-            let tdPriceOffset = ctElements[2] - historyData[testIndex][2];
+            let tdPriceOffset = ctElements[2] - historyData[historyData.length-1][2];
             let currtPriceRadio =  Math.floor((tdPriceOffset / historyData[testIndex][2]) * 10000, 4) / 100.;
 
             let tdMaxPriceOffset = ctElements[5] - ctElements[6];
