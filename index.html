@@ -63,10 +63,12 @@
 
 <!--<script type="text/javascript" src="https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?_var=kline_dayhfq&param=sz000001,day,,,60,qfq&r=1" charSet = "gb2312"></script>-->
 <script type="text/javascript" src="AllHistoryData0602.js"></script>
+<script type="text/javascript" src="AllInfoGP.js"></script>
 
 <script type="text/javascript">
     // ctHistoryData = []
-    allHistoryData = myStr
+    allHistoryData = myStr;
+    allInfoGPData = allInfoGP;
 </script>
 
 <!--<script type="text/javascript" src="FileSaver.js"></script>-->
@@ -241,6 +243,15 @@
                 continue;
             }
 
+            let infoGP = "未知";
+             for(let tInfoStartIndex = 0; tInfoStartIndex < allInfoGPData.length; tInfoStartIndex++)
+             {
+                 if(ctElements[0] == allInfoGPData[tInfoStartIndex][0])
+                 {
+                     infoGP = allInfoGPData[tInfoStartIndex][allInfoGPData[tInfoStartIndex].length - 2];
+                 }
+             }
+
             // 股票代码，名称，当前价，开盘价，量比，最高，最低，流通市值，题材，k图形态
             var ctSingleCandidateSharesData = [];
             ctSingleCandidateSharesData.push(ctElements[0]); // 股票代码
@@ -249,6 +260,7 @@
             ctSingleCandidateSharesData.push(currtPriceRadio); // 浮动值
             ctSingleCandidateSharesData.push(ctElements[4]); // 量比
             ctSingleCandidateSharesData.push(ctElements[7]); // 流通市值
+            ctSingleCandidateSharesData.push(infoGP); // 板块题材
 
             candidateSharesData.push(ctSingleCandidateSharesData);
         }
@@ -285,12 +297,13 @@
 
         outputTextArea.value = outputTextArea.value +
                 candidateSharesData[j][0] + ',  ' +
-                candidateSharesData[j][1] + ',  ' +
-                '当前价：' + Math.floor(candidateSharesData[j][2]) + '' + ',  ' +
-                '当前浮动值：' + Math.floor(candidateSharesData[j][3]*100)/100. + '%' + ',  ' +
-                '\n' +
-                '量比：' + Math.floor(candidateSharesData[j][4]*100)/100.+ '' + ',  ' +
-            '流通市值：' + Math.floor(candidateSharesData[j][5]) + '亿' + ',  ' +
+                candidateSharesData[j][1] + '----' +
+            //     '当前价：' + Math.floor(candidateSharesData[j][2]) + '' + ',  ' +
+            //     '当前浮动值：' + Math.floor(candidateSharesData[j][3]*100)/100. + '%' + ',  ' +
+            //     '\n' +
+            //     '量比：' + Math.floor(candidateSharesData[j][4]*100)/100.+ '' + ',  ' +
+            // '流通市值：' + Math.floor(candidateSharesData[j][5]) + '亿' + ',  ' +
+            '题材：' + candidateSharesData[j][6]  + ',  ' +
                 //'打板类别：' + candidateSharesData[j][17] + '' + ',  ' +
                // '日期：' + candidateSharesData[j][15] + '' + ',  ' +
             '\n\n';
