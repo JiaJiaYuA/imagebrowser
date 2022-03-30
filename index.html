@@ -169,7 +169,13 @@
             let tPreMaxPriceOffset30 = tPreMaxPrice - ctElements[2];
             let tPreMaxPriceOffset30Radio =  Math.floor((tPreMaxPriceOffset30 / ctElements[2]) * 10000, 4) / 100.;
 
-            if(tPreMaxPriceOffset30Radio > 25 ||  tPreMaxPriceOffset30Radio < 1.15)
+            // if(ctElements[0] == "000713")
+            // {
+            //     let a = 0;
+            // }
+
+             //if(tPreMaxPriceOffset30Radio > 25 ||  tPreMaxPriceOffset30Radio < 1.15)
+             if(tPreMaxPriceOffset30Radio > 25)
             {
                 continue;
             }
@@ -195,6 +201,7 @@
             let priceRadio3 = Math.floor(((preDayDayPrice - preDayDayDayPrice) / preDayDayDayPrice) * 10000, 4) / 100.;
             let priceRadio4 = Math.floor(((preDayDayDayPrice - preDDDDPrice) / preDDDDPrice) * 10000, 4) / 100.;
             let priceRadio5 = Math.floor(((preDDDDPrice - preDDDDDPrice) / preDDDDDPrice) * 10000, 4) / 100.;
+
 
             if(priceRadio1 > maxUpRadio || priceRadio2 > maxUpRadio ||
            // priceRadio3 > maxUpRadio || priceRadio4 > maxUpRadio ||
