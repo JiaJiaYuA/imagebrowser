@@ -74,6 +74,8 @@
 <!--<script type="text/javascript" src="FileSaver.js"></script>-->
 <script type="text/javascript" src="realTimeDataGet-tx.js"></script>
 <script type="text/javascript" src="realTimeDataGetAllIndustory.js"></script>
+<script type="text/javascript" src="geometricDraw.js"></script>
+<script type="text/javascript" src="imageProcessAlgorithm.js"></script>
 <!--<script type="text/javascript" src="hangyemokuai.js"></script>-->
 
 
@@ -157,6 +159,7 @@
 
             testIndex = historyData.length - 1;
             //
+			var tRadioArray = [];
             let tPreMaxPrice = -1;
             for(let tPreIndex = historyData.length-30; tPreIndex < historyData.length; tPreIndex++)
             {
@@ -164,7 +167,42 @@
                 {
                     tPreMaxPrice = historyData[tPreIndex][2];
                 }
+				
+				if(tPreIndex < historyData.length-1)
+				{
+					let ctDayPrice = historyData[tPreIndex][2];
+					let ctTomorrowDayPrice = historyData[tPreIndex+1][2];
+
+					let ctTomorrowRadio = Math.floor(((ctTomorrowDayPrice - ctDayPrice) / ctDayPrice) * 10000, 4) / 100.;
+					tRadioArray.push(ctTomorrowRadio);
+				}
             }
+
+            for (let tRadioIndex = 1; tRadioIndex < tRadioArray.length; tRadioIndex++)
+            {
+                tRadioArray[tRadioIndex] += tRadioArray[tRadioIndex-1];
+            }
+
+            let tFitLinePnts = [];
+            for (let tRadioIndex = 0; tRadioIndex < tRadioArray.length; tRadioIndex++)
+            {
+                tFitLinePnts.push([tRadioIndex, tRadioArray[tRadioIndex]]);
+            }
+
+            let  tFitLine = fitLine2D(tFitLinePnts);
+
+            let tFitLineAngle = Math.atan(tFitLine[4] - tFitLine[1])*180./3.1415926;
+
+            if(ctElements[0] == "000863")
+            {
+                let aar = 0;
+            }
+
+            if(tFitLineAngle < -10)
+            {
+                continue;
+            }
+
 
             let tPreMaxPriceOffset30 = tPreMaxPrice - ctElements[2];
             let tPreMaxPriceOffset30Radio =  Math.floor((tPreMaxPriceOffset30 / ctElements[2]) * 10000, 4) / 100.;
@@ -177,8 +215,19 @@
              if(tPreMaxPriceOffset30Radio > 25 ||  tPreMaxPriceOffset30Radio < 1.15)
              //if(tPreMaxPriceOffset30Radio > 25)
             {
+               // continue;
+            }
+
+             // test
+
+            let tdPriceOffsetTest = ctElements[5] - historyData[historyData.length-1][2];
+            let currtPriceRadioTest =  Math.floor((tdPriceOffsetTest / historyData[testIndex][2]) * 10000, 4) / 100.;
+
+            if(currtPriceRadioTest < 4.0)
+            {
                 continue;
             }
+
 
             let tdPriceOffset = ctElements[2] - historyData[historyData.length-1][2];
             let currtPriceRadio =  Math.floor((tdPriceOffset / historyData[testIndex][2]) * 10000, 4) / 100.;
@@ -195,6 +244,8 @@
             let preDayDayDayPrice = historyData[testIndex-3][2];
             let preDDDDPrice = historyData[testIndex-4][2];
             let preDDDDDPrice = historyData[testIndex-5][2];
+            let preDDDDDPrice6 = historyData[testIndex-6][2];
+            let preDDDDDPrice7 = historyData[testIndex-7][2];
 
             let priceRadio1 = Math.floor(((prePrice - preDayPrice) / preDayPrice) * 10000, 4) / 100.;
             let priceRadio2 = Math.floor(((preDayPrice - preDayDayPrice) / preDayDayPrice) * 10000, 4) / 100.;
@@ -202,15 +253,75 @@
             let priceRadio4 = Math.floor(((preDayDayDayPrice - preDDDDPrice) / preDDDDPrice) * 10000, 4) / 100.;
             let priceRadio5 = Math.floor(((preDDDDPrice - preDDDDDPrice) / preDDDDDPrice) * 10000, 4) / 100.;
 
-            if(ctElements[0] == "600818")
+            let priceRadio6 = Math.floor(((preDDDDDPrice - preDDDDDPrice6) / preDDDDDPrice6) * 10000, 4) / 100.;
+            let priceRadio7 = Math.floor(((preDDDDDPrice6 - preDDDDDPrice7) / preDDDDDPrice7) * 10000, 4) / 100.;
+
+            let tNumMaxRadio = 0;
+            if(priceRadio1 > maxUpRadio)
+            {
+                tNumMaxRadio ++;
+            }
+            if(priceRadio2 > maxUpRadio)
+            {
+                tNumMaxRadio ++;
+            }
+            if(priceRadio3 > maxUpRadio)
+            {
+                tNumMaxRadio ++;
+            }
+            if(priceRadio4 > maxUpRadio)
+            {
+                tNumMaxRadio ++;
+            }
+            if(priceRadio5 > maxUpRadio)
+            {
+                tNumMaxRadio ++;
+            }
+            if(priceRadio6 > maxUpRadio)
+            {
+                tNumMaxRadio ++;
+            }
+            if(priceRadio7 > maxUpRadio)
+            {
+                tNumMaxRadio ++;
+            }
+
+            if(ctElements[0] == "000505")
             {
                 let aar = 0;
+            }
+
+            if(tNumMaxRadio > 3)
+            {
+                continue;
+            }
+
+
+            let tIsHaveMax = false;
+            for (let tIsHaveMaxIndex = 1; tIsHaveMaxIndex < historyData.length; tIsHaveMaxIndex++)
+            {
+                let tPreDDDDDPrice = historyData[tIsHaveMaxIndex-1][2];
+                let tCtDDDDDPrice = historyData[tIsHaveMaxIndex][2];
+
+                let tCtPriceRadio = Math.floor(((tCtDDDDDPrice - tPreDDDDDPrice) / tPreDDDDDPrice) * 10000, 4) / 100.;
+                if(tCtPriceRadio > maxUpRadio)
+                {
+                    tIsHaveMax = true;
+                    break;
+                }
+
+            }
+
+            if(!tIsHaveMax)
+            {
+                continue;
             }
 
             if(priceRadio1 > maxUpRadio || priceRadio2 > maxUpRadio ||
            // priceRadio3 > maxUpRadio || priceRadio4 > maxUpRadio ||
                 currtPriceRadio > maxUpRadio)
             // priceRadio5 > maxUpRadio || currtPriceRadio > maxUpRadio)
+            //if(priceRadio1 > maxUpRadio || priceRadio2 > maxUpRadio)
             {
                 continue;
             }
@@ -231,8 +342,6 @@
             {
                 continue;
             }
-
-
 
             if(currtMaxPriceRadio - currtPriceRadio > 1.5)
             {
@@ -272,7 +381,8 @@
             ctSingleCandidateSharesData.push(ctElements[4]); // 量比
             ctSingleCandidateSharesData.push(ctElements[7]); // 流通市值
             ctSingleCandidateSharesData.push(infoGP); // 板块题材
-
+            ctSingleCandidateSharesData.push(Math.floor(tFitLineAngle)); // angle test
+			
             candidateSharesData.push(ctSingleCandidateSharesData);
         }
     }
@@ -280,10 +390,10 @@
 
     // // 按竞价量排序
     // candidateSharesData.sort(function (a,b) {
-    //         if (parseFloat(a[12]) < parseFloat(b[12]) ) {           // 按某种排序标准进行比较, a 小于 b
+    //         if (parseFloat(a[3]) < parseFloat(b[3]) ) {           // 按某种排序标准进行比较, a 小于 b
     //             return 1;
     //         }
-    //         if (parseFloat(a[12]) > parseFloat(b[12]) ) {
+    //         if (parseFloat(a[3]) > parseFloat(b[3]) ) {
     //             return -1;
     //         }
     //         // a must be equal to b
@@ -326,18 +436,19 @@
             //     '当前浮动值：' + Math.floor(candidateSharesData[j][3]*100)/100. + '%' + ',  ' +
             //     '\n' +
             //     '量比：' + Math.floor(candidateSharesData[j][4]*100)/100.+ '' + ',  ' +
-            // '流通市值：' + Math.floor(candidateSharesData[j][5]) + '亿' + ',  ' +
+             '流通市值：' + Math.floor(candidateSharesData[j][5]) + '亿' + ',  ' +
             '题材：' + candidateSharesData[j][6]  + ',  ' +
                 //'打板类别：' + candidateSharesData[j][17] + '' + ',  ' +
                // '日期：' + candidateSharesData[j][15] + '' + ',  ' +
+            //    '角度：' + candidateSharesData[j][7] + '' + ',  ' +
             '\n\n';
     }
 
 
 </script>
 
-<script type="text/javascript" src="geometricDraw.js"></script>
-<script type="text/javascript" src="imageProcessAlgorithm.js"></script>
+<!--<script type="text/javascript" src="geometricDraw.js"></script>-->
+<!--<script type="text/javascript" src="imageProcessAlgorithm.js"></script>-->
 <!--<script type="text/javascript" src="ImageBrowser.js"></script>-->
 </body>
 </html>

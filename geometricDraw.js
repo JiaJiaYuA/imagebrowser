@@ -18,6 +18,13 @@ function Point2d(vX, vY) {
     this.y = vY;
 }
 
+// 3d point
+function Point3d(vX, vY, vZ) {
+    this.x = vX;
+    this.y = vY;
+    this.z = vZ;
+}
+
 // pixel pnt
 function PixelPnt(vX, vY, vGray) {
     this.x = vX;
