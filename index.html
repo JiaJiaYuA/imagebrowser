@@ -298,7 +298,7 @@
 
 
             let tIsHaveMax = false;
-            for (let tIsHaveMaxIndex = 1; tIsHaveMaxIndex < historyData.length; tIsHaveMaxIndex++)
+            for (let tIsHaveMaxIndex = historyData.length-30; tIsHaveMaxIndex < historyData.length; tIsHaveMaxIndex++)
             {
                 let tPreDDDDDPrice = historyData[tIsHaveMaxIndex-1][2];
                 let tCtDDDDDPrice = historyData[tIsHaveMaxIndex][2];
@@ -325,6 +325,12 @@
             {
                 continue;
             }
+
+            if(priceRadio1 > 0)
+            {
+                continue;
+            }
+
 
             // if(historyData[0][2] > ctElements[2])
             let tAddScale = ctElements[2] / historyData[0][2];
