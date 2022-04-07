@@ -19,7 +19,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="F:/python web" />
   </component>
   <component name="RunManager">
     <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/imagebrowser/index.html" useBuiltInWebServerPort="true">
@@ -41,11 +41,18 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1649250443119</updated>
-      <workItem from="1649250444610" duration="853000" />
+      <workItem from="1649250444610" duration="2653000" />
+      <workItem from="1649262562323" duration="26000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="2" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1060" y="454" key="FileChooserDialogImpl" timestamp="1649262586687">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1060" y="454" key="FileChooserDialogImpl/-2560.5.2560.1400/0.0.2560.1400@0.0.2560.1400" timestamp="1649262586687" />
   </component>
 </project>
