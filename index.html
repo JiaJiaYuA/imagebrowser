@@ -317,6 +317,11 @@
                 continue;
             }
 
+            if ((priceRadio1 + priceRadio2) < -10)
+            {
+                continue;
+            }
+
             if(priceRadio1 > maxUpRadio || priceRadio2 > maxUpRadio ||
            // priceRadio3 > maxUpRadio || priceRadio4 > maxUpRadio ||
                 currtPriceRadio > maxUpRadio)
